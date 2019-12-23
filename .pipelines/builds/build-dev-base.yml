@@ -4,7 +4,7 @@ resources:
   - repository: vmchooserlandscaping
     type: github
     name: vmchooser/landscaping
-    endpoint: "https://github.com/vmchooser/landscaping"
+    endpoint: vmchooser
 trigger:
   batch: true
   branches:
