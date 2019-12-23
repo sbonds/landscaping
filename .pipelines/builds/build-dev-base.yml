@@ -19,7 +19,7 @@ jobs:
   variables:
   - group: vmchooser
   pool:
-    name: Default
+    vmImage: 'ubuntu-latest'
   steps:
   - template: ../templates/tf-environment-build.yml
     parameters:
@@ -29,7 +29,7 @@ jobs:
   - group: vmchooser
   dependsOn: LandScaping_Build_Dev
   pool:
-    name: Default
+    vmImage: 'ubuntu-latest'
   steps:
   - template: ../templates/tf-environment-deploy.yml
     parameters:
