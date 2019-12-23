@@ -21,7 +21,7 @@ resource "azurerm_app_service" "frontend" {
   app_service_plan_id = "${azurerm_app_service_plan.frontend.id}"
 
   app_settings {
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.appinsights.instrumentation_key}"
+    APPINSIGHTS_INSTRUMENTATIONKEY = "${azurerm_application_insights.appinsights.instrumentation_key}"
   }
 }
 

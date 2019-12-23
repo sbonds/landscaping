@@ -25,7 +25,7 @@ resource "azurerm_function_app" "functionsread" {
   https_only                = "true"
 
   app_settings {
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.appinsights.instrumentation_key}"
+    APPINSIGHTS_INSTRUMENTATIONKEY = "${azurerm_application_insights.appinsights.instrumentation_key}"
   }
 
   identity {
@@ -43,7 +43,7 @@ resource "azurerm_function_app" "functionswrite" {
   https_only                = "true"
 
   app_settings {
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.appinsights.instrumentation_key}"
+    APPINSIGHTS_INSTRUMENTATIONKEY = "${azurerm_application_insights.appinsights.instrumentation_key}"
   }
 
   identity {
