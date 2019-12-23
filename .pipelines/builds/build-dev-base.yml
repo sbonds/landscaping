@@ -16,7 +16,7 @@ trigger:
 jobs:
 - job: LandScaping_Build_Dev
   variables:
-  - group: vmchooserdevsp
+  - group: vmchooser
   pool:
     name: Default
   steps:
@@ -25,7 +25,7 @@ jobs:
       varfile: dev.tfvars
 - job: LandScaping_Deploy_Dev
   variables:
-  - group: vmchooserdevsp
+  - group: vmchooser
   dependsOn: LandScaping_Build_Dev
   pool:
     name: Default
