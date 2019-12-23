@@ -14,11 +14,13 @@ provider "azurerm" {
 variable "tf_storageaccount" {}
 variable "tf_container" {}
 variable "tf_key" {}
+variable "ARMACCESSKEY" {}
 
 terraform {
   backend "azurerm" {
     storage_account_name  = "${var.tf_storageaccount}"
     container_name        = "${var.tf_container}"
     key                   = "${var.tf_key}"
+    access_key            = "${var.ARMACCESSKEY}"
   }
 }

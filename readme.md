@@ -1,1 +1,1 @@
-Initial Commit
+[![Build Status](https://dev.azure.com/beluxappdev/VMchooser/_apis/build/status/vmchooser.landscaping?branchName=master)](https://dev.azure.com/beluxappdev/VMchooser/_build/latest?definitionId=8&branchName=master)
