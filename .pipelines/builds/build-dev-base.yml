@@ -2,7 +2,7 @@ name: $(Date:yyyyMMdd).$(Rev:.r)
 resources:
   repositories:
   - repository: vmchooserlandscaping
-    type: git
+    type: githun
     name: vmchooser/landscaping
 trigger:
   batch: true
