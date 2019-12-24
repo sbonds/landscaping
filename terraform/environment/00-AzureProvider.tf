@@ -10,6 +10,9 @@ variable "armclientsecret" {
 variable "armtenantid" {
 }
 
+variable "armobjectid" {
+}
+
 provider "azurerm" {
   version         = "=1.38.0"
   subscription_id = var.armsubscriptionid
