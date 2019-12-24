@@ -1,0 +1,4 @@
+terraform/environment/.terraform/terraform.tfstate
+terraform/environment/.terraform/plugins/linux_amd64/lock.json
+terraform/environment/.terraform/plugins/linux_amd64/terraform-provider-azurerm_v1.38.0_x4
+terraform/environment/.terraform/plugins/linux_amd64/terraform-provider-random_v2.2.1_x4

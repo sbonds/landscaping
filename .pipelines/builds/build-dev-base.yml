@@ -24,6 +24,7 @@ jobs:
   - template: ../templates/tf-environment-build.yml
     parameters:
       varfile: dev.tfvars
+      stage: dev
 - job: LandScaping_Deploy_Dev
   variables:
   - group: vmchooser
@@ -34,3 +35,4 @@ jobs:
   - template: ../templates/tf-environment-deploy.yml
     parameters:
       varfile: dev.tfvars
+      stage: dev

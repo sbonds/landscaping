@@ -1,26 +1,54 @@
-variable "prefix_environment" {}
-variable "prefix_workload" {}
+variable "prefix_environment" {
+}
 
-variable "region_primary" {}
-variable "region_secondary" {}
+variable "prefix_workload" {
+}
 
-variable "storage_identifier" {}
-variable "storage_tier" {}
-variable "storage_resiliency" {}
+variable "region_primary" {
+}
 
-variable "keyvault_identifier" {}
-variable "keyvault_sku" {}
+variable "region_secondary" {
+}
 
+variable "storage_identifier" {
+}
 
-variable "functions_identifier" {}
-variable "functions_tier" {}
-variable "functions_size" {}
+variable "storage_tier" {
+}
 
-variable "appinsights_identifier" {}
+variable "storage_resiliency" {
+}
 
-variable "mssql_identifier" {}
-variable "mssql_size" {}
+variable "keyvault_identifier" {
+}
 
-variable "webapp_identifier" {}
-variable "webapp_tier" {}
-variable "webapp_size" {}
+variable "keyvault_sku" {
+}
+
+variable "functions_identifier" {
+}
+
+variable "functions_tier" {
+}
+
+variable "functions_size" {
+}
+
+variable "appinsights_identifier" {
+}
+
+variable "mssql_identifier" {
+}
+
+variable "mssql_size" {
+}
+
+variable "webapp_identifier" {
+}
+
+variable "webapp_tier" {
+}
+
+variable "webapp_size" {
+}
+

@@ -1,7 +1,3 @@
-tf_storageaccount = "vmchooserterraform"
-tf_container = "${var.prefix_environment}"
-tf_key = "terraform.tfstate"
-
 prefix_workload = "vmchooser"
 
 region_primary = "westeurope"
