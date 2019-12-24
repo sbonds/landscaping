@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "functions" {
+/*resource "azurerm_resource_group" "functions" {
   name     = "${var.prefix_environment}-${var.prefix_workload}-${var.functions_identifier}"
   location = var.region_primary
 }
@@ -51,3 +51,4 @@ resource "azurerm_function_app" "functionswrite" {
   }
 }
 
+*/

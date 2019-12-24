@@ -1,4 +1,4 @@
-resource "azurerm_key_vault" "keyvaultsensitive" {
+/* resource "azurerm_key_vault" "keyvaultsensitive" {
   name                        = "${var.prefix_workload}${var.prefix_environment}sensitive"
   location                    = azurerm_resource_group.keyvault.location
   resource_group_name         = azurerm_resource_group.keyvault.name
@@ -54,3 +54,4 @@ resource "azurerm_key_vault_secret" "mssqldb" {
   depends_on = [azurerm_key_vault_access_policy.keyvaultsensitivepolicysp]
 }
 
+*/

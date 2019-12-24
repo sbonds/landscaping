@@ -1,4 +1,4 @@
-variable "armobjectid" {
+/* variable "armobjectid" {
 }
 
 resource "azurerm_resource_group" "keyvault" {
@@ -85,3 +85,4 @@ resource "azurerm_key_vault_secret" "keyvaultsecretfrontendappname" {
   depends_on = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
 
+*/

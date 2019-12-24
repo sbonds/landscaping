@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "mssql" {
+/* resource "azurerm_resource_group" "mssql" {
   name     = "${var.prefix_environment}-${var.prefix_workload}-${var.mssql_identifier}"
   location = var.region_primary
 }
@@ -40,3 +40,4 @@ resource "azurerm_sql_active_directory_administrator" "mssql" {
   object_id           = var.armobjectid
 }
 
+*/

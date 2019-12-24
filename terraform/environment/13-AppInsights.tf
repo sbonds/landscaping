@@ -9,4 +9,3 @@ resource "azurerm_application_insights" "appinsights" {
   resource_group_name = azurerm_resource_group.appinsights.name
   application_type    = "Web"
 }
-
