@@ -1,17 +1,13 @@
 steps:
 - script: terraform init -input=false -backend-config="container_name=${{ parameters.stage }}" -backend-config="access_key=$(storageaccountkey)" -backend-config="subscription_id=$(armsubscriptionid)" -backend-config="storage_account_name=$(storageaccountname)"
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
-  displayName: Terraform Init
-- task: AzureCLI@2
-  displayName: Azure CLI Test
-  inputs:
-    azureSubscription: $(subscriptionserviceconnectorname)
-    scriptType: shell
-    scriptLocation: inlineScript
-    inlineScript: |
-        az --version
-        az account show
-        az account set --subscription $(armsubscriptionid)
+  displayName: Terraform 
+- script: az login --service-principal --username $(ARMCLIENTID) --password $(ARMCLIENTSECRET) --tenant $(armtenantid)
+  workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
+  displayName: AzCLI Login
+- script: az account set --subscription = $(armsubscriptionid)
+  workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
+  displayName: AzCLI Set Account
 - script: terraform plan -input=false -var-file=${{ parameters.varfile }} -var 'subscription_id=$(armsubscriptionid)' -var 'tenant_id=$(armtenantid)' -var "prefix=${{ parameters.stage }}"
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform Plan
