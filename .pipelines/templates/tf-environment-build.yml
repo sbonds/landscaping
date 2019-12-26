@@ -1,5 +1,5 @@
 steps:
-- script: terraform terraform init -backend=false
+- script: terraform init -backend=false
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform Init
 - script: terraform validate
