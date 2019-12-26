@@ -35,7 +35,6 @@ stages:
   - job: LandScaping_Deploy_Dev
     variables:
     - group: vmchooser
-    dependsOn: LandScaping_Build_Dev
     pool:
       vmImage: 'ubuntu-latest'
     steps:
