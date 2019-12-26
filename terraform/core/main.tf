@@ -19,7 +19,7 @@ data "terraform_remote_state" "remote_state_shared" {
   backend = "azurerm"
   config = {
     key               = "shared.terraform.tfstate"
-    container_name   = "shared"
+    container_name    = "shared"
   }
 }
 

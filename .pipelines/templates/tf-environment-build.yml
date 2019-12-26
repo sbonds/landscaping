@@ -2,7 +2,7 @@ steps:
 - script: terraform init -backend=false
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform Init
-- script: terraform validate
+- script: terraform validate -backend-config="access_key=$(storageaccountkey)" -backend-config="storage_account_name=$(storageaccountname)" -backend-config="subscription_id=$(armsubscriptionid)" -backend-config="tenant_id=$(armtenantid)" -backend-config="client_id=$(ARMCLIENTID)" -backend-config="client_secret=$(ARMCLIENTSECRET)"
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform Validate
 - publish: $(Build.Repository.LocalPath)

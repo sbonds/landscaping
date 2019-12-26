@@ -19,7 +19,7 @@ data "terraform_remote_state" "remote_state_core" {
   backend = "azurerm"
   config = {
     key               = "core.terraform.tfstate"
-    containter_name   = var.prefix
+    container_name    = var.prefix
   }
 }
 
