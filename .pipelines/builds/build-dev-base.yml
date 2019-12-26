@@ -27,6 +27,7 @@ stages:
     - template: ../templates/tf-environment-build.yml
       parameters:
         module: shared
+        stage: shared
   - job: LandScaping_Build_Core
     variables:
     - group: vmchooser
@@ -36,6 +37,7 @@ stages:
     - template: ../templates/tf-environment-build.yml
       parameters:
         module: core
+        stage: dev
   - job: LandScaping_Build_Aks
     variables:
     - group: vmchooser
@@ -45,6 +47,7 @@ stages:
     - template: ../templates/tf-environment-build.yml
       parameters:
         module: aks
+        stage: dev
 - stage: DeployDev
   displayName: Deploy Dev Environment
   dependsOn: Dev
