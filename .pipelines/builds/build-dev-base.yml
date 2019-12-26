@@ -14,9 +14,10 @@ trigger:
     include:
     - /terraform/
     - /.pipelines/templates/tf*
-jobs:
+stages:
 - stage: Build
   displayName: Build stage
+  jobs:
   - job: LandScaping_Build_Dev
     variables:
     - group: vmchooser
@@ -30,6 +31,7 @@ jobs:
 - stage: Deploy Dev
   displayName: Build stage
   dependsOn: Dev
+  jobs:
   - job: LandScaping_Deploy_Dev
     variables:
     - group: vmchooser
