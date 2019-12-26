@@ -5,7 +5,7 @@ steps:
 - task: AzureCLI@2
   displayName: Azure CLI Test
   inputs:
-    azureSubscription: ame of the Azure subscription><N
+    azureSubscription: $(subscriptionserviceconnectorname)
     scriptType: shell
     scriptLocation: inlineScript
     inlineScript: |
