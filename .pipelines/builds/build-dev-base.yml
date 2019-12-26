@@ -61,7 +61,7 @@ stages:
         stage: shared
         module: shared
   - job: LandScaping_Deploy_Dev_Core
-    depends_on: LandScaping_Deploy_Shared_Core
+    dependsOn: LandScaping_Deploy_Shared_Core
     variables:
     - group: vmchooser
     pool:
@@ -73,7 +73,7 @@ stages:
         stage: dev
         module: core
   - job: LandScaping_Deploy_Dev_Aks
-    depends_on: LandScaping_Deploy_Dev_Core
+    dependsOn: LandScaping_Deploy_Dev_Core
     variables:
     - group: vmchooser
     pool:
