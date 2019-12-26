@@ -15,7 +15,7 @@ trigger:
     - /terraform/
     - /.pipelines/templates/tf*
 stages:
-- stage: Build
+- stage: Dev
   displayName: Build stage
   jobs:
   - job: LandScaping_Build_Dev
