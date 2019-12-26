@@ -40,6 +40,6 @@ stages:
     steps:
     - template: ../templates/tf-environment-deploy.yml
       parameters:
-        varfile: dev.tfvars
+        varfile: ../environments/dev.tfvars
         stage: dev
         module: core

@@ -16,7 +16,7 @@ provider "azuread" {
 
 ######################################################################### RESOURCES
 resource "azurerm_resource_group" "resource_group" {
-  name     = "${var.prefix}-rg"
+  name     = "${var.prefix}-${var.workload}-core"
   location = var.region
 }
 
