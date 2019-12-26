@@ -8,6 +8,11 @@ variable "subscription_id" {
   description = "The Azure subscription in which to provision resources"
 }
 
+variable "workload" {
+  type        = string
+  description = "The workload we are deploying"
+}
+
 variable "prefix" {
   type        = string
   description = "Prefix for all the resources provisioned"
