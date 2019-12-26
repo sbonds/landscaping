@@ -18,7 +18,7 @@ stages:
 - stage: Dev
   displayName: Build stage
   jobs:
-  - job: LandScaping_Build_Dev
+  - job: LandScaping_Build_Shared
     variables:
     - group: vmchooser
     pool:
@@ -26,8 +26,25 @@ stages:
     steps:
     - template: ../templates/tf-environment-build.yml
       parameters:
-        varfile: dev.tfvars
-        stage: dev
+        module: shared
+  - job: LandScaping_Build_Core
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-build.yml
+      parameters:
+        module: core
+  - job: LandScaping_Build_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-build.yml
+      parameters:
+        module: aks
 - stage: DeployDev
   displayName: Deploy Dev Environment
   dependsOn: Dev
@@ -44,6 +61,7 @@ stages:
         stage: shared
         module: shared
   - job: LandScaping_Deploy_Dev_Core
+    depends_on: LandScaping_Deploy_Shared_Core
     variables:
     - group: vmchooser
     pool:
@@ -55,6 +73,7 @@ stages:
         stage: dev
         module: core
   - job: LandScaping_Deploy_Dev_Aks
+    depends_on: LandScaping_Deploy_Dev_Core
     variables:
     - group: vmchooser
     pool:
