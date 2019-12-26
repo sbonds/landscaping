@@ -43,3 +43,14 @@ stages:
         varfile: ../environments/dev.tfvars
         stage: dev
         module: core
+  - job: LandScaping_Deploy_Dev_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: ../environments/dev.tfvars
+        stage: dev
+        module: aks
