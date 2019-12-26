@@ -15,24 +15,29 @@ trigger:
     - /terraform/
     - /.pipelines/templates/tf*
 jobs:
-- job: LandScaping_Build_Dev
-  variables:
-  - group: vmchooser
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - template: ../templates/tf-environment-build.yml
-    parameters:
-      varfile: dev.tfvars
-      stage: dev
-- job: LandScaping_Deploy_Dev
-  variables:
-  - group: vmchooser
-  dependsOn: LandScaping_Build_Dev
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - template: ../templates/tf-environment-deploy.yml
-    parameters:
-      varfile: dev.tfvars
-      stage: dev
+- stage: Build
+  displayName: Build stage
+  - job: LandScaping_Build_Dev
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-build.yml
+      parameters:
+        varfile: dev.tfvars
+        stage: dev
+- stage: Deploy Dev
+  displayName: Build stage
+  dependsOn: Dev
+  - job: LandScaping_Deploy_Dev
+    variables:
+    - group: vmchooser
+    dependsOn: LandScaping_Build_Dev
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: dev.tfvars
+        stage: dev
