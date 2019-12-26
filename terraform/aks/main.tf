@@ -39,7 +39,7 @@ resource "random_string" "random_string_aks_suffix" {
   upper               = false
 }
 
-resource "azurerm_kubernetes_cluster" "example" {
+resource "azurerm_kubernetes_cluster" "kubernetescluster" {
   name                = "${var.prefix}-${var.workload}-aks-${random_string.random_string_aks_suffix.result}"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
@@ -56,7 +56,7 @@ resource "azurerm_kubernetes_cluster" "example" {
     client_secret = var.client_secret
   }
 
-    agent_pool_profile {
+  agent_pool_profile {
     name                = "default"
     count               = var.aks_count
     min_count           = var.aks_count_min
@@ -67,7 +67,7 @@ resource "azurerm_kubernetes_cluster" "example" {
     type                = "VirtualMachineScaleSets"
     availability_zones  = [ "1", "2", "3"]
     enable_auto_scaling = true
-    vnet_subnet_id      = var.vnet_subnet_id
+    #vnet_subnet_id      = var.vnet_subnet_id
   }
 
   #network_profile {
