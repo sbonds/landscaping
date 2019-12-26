@@ -18,7 +18,7 @@ stages:
 - stage: Dev
   displayName: Build stage
   jobs:
-  - job: LandScaping_Build_Shared
+  - job: Build_Shared
     variables:
     - group: vmchooser
     pool:
@@ -28,7 +28,7 @@ stages:
       parameters:
         module: shared
         stage: shared
-  - job: LandScaping_Build_Core
+  - job: Build_Core
     variables:
     - group: vmchooser
     pool:
@@ -38,7 +38,7 @@ stages:
       parameters:
         module: core
         stage: dev
-  - job: LandScaping_Build_Aks
+  - job: Build_Aks
     variables:
     - group: vmchooser
     pool:
@@ -52,7 +52,7 @@ stages:
   displayName: Deploy Dev Environment
   dependsOn: Dev
   jobs:
-  - job: LandScaping_Deploy_Shared_Core
+  - job: Deploy_Shared_Core
     variables:
     - group: vmchooser
     pool:
@@ -63,8 +63,8 @@ stages:
         varfile: ../environments/shared.tfvars
         stage: shared
         module: shared
-  - job: LandScaping_Deploy_Dev_Core
-    dependsOn: LandScaping_Deploy_Shared_Core
+  - job: Deploy_Dev_Core
+    dependsOn: Deploy_Shared_Core
     variables:
     - group: vmchooser
     pool:
@@ -75,8 +75,8 @@ stages:
         varfile: ../environments/dev.tfvars
         stage: dev
         module: core
-  - job: LandScaping_Deploy_Dev_Aks
-    dependsOn: LandScaping_Deploy_Dev_Core
+  - job: Deploy_Dev_Aks
+    dependsOn: Deploy_Dev_Core
     variables:
     - group: vmchooser
     pool:
