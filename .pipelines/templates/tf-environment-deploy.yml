@@ -5,7 +5,7 @@ steps:
 - script: az login --service-principal --username $(ARMCLIENTID) --password $(ARMCLIENTSECRET) --tenant $(armtenantid)
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: AzCLI Login
-- script: az account set --subscription = $(armsubscriptionid)
+- script: az account set --subscription $(armsubscriptionid)
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: AzCLI Set Account
 - script: terraform plan -input=false -var-file=${{ parameters.varfile }} -var 'subscription_id=$(armsubscriptionid)' -var 'tenant_id=$(armtenantid)' -var "prefix=${{ parameters.stage }}"
