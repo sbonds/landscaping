@@ -29,7 +29,7 @@ stages:
         varfile: dev.tfvars
         stage: dev
 - stage: DeployDev
-  displayName: Build stage
+  displayName: Deploy Dev Environment
   dependsOn: Dev
   jobs:
   - job: LandScaping_Deploy_Dev
