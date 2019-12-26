@@ -1,0 +1,5 @@
+prefix = "shared"
+workload = "vmchooser"
+region = "westeurope"
+domain = "vmchooser.com"
+subdomain = "dev"

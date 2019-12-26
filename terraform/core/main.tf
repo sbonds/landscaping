@@ -14,6 +14,15 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
 }
 
+# Remote State Data
+data "terraform_remote_state" "remote_state_shared" {
+  backend = "azurerm"
+  config = {
+    key               = "shared.terraform.tfstate"
+    containter_name   = "shared"
+  }
+}
+
 # Resources
 resource "azurerm_resource_group" "resource_group" {
   name                = "${var.prefix}-${var.workload}-core"
@@ -70,23 +79,18 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
   }
 }
 
-resource "azurerm_dns_zone" "dns_zone" {
-  name                = var.domain
-  resource_group_name = azurerm_resource_group.resource_group.name
-}
-
 resource "azurerm_dns_cname_record" "dns_cname_record" {
   name                = var.subdomain
-  zone_name           = azurerm_dns_zone.dns_zone.name
-  resource_group_name = azurerm_resource_group.resource_group.name
+  zone_name           = data.terraform_remote_state.dns_zone_name
+  resource_group_name = data.terraform_remote_state.resource_group_name
   ttl                 = 0
   record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
 }
 
 resource "azurerm_dns_cname_record" "dns_cname_wildcard_record" {
   name                = "*.${var.subdomain}"
-  zone_name           = azurerm_dns_zone.dns_zone.name
-  resource_group_name = azurerm_resource_group.resource_group.name
+  zone_name           = data.terraform_remote_state.dns_zone_name
+  resource_group_name = data.terraform_remote_state.resource_group_name
   ttl                 = 0
   record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
 }

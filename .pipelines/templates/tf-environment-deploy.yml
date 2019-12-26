@@ -3,12 +3,6 @@ steps:
 - script: terraform init -input=false -backend-config="container_name=${{ parameters.stage }}" -backend-config="access_key=$(storageaccountkey)" -backend-config="storage_account_name=$(storageaccountname)" -backend-config="subscription_id=$(armsubscriptionid)" -backend-config="tenant_id=$(armtenantid)" -backend-config="client_id=$(ARMCLIENTID)" -backend-config="client_secret=$(ARMCLIENTSECRET)"
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform 
-#- script: az login --service-principal --username $(ARMCLIENTID) --password $(ARMCLIENTSECRET) --tenant $(armtenantid)
-#  workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
-#  displayName: AzCLI Login
-#- script: az account set --subscription $(armsubscriptionid)
-#  workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
-#  displayName: AzCLI Set Account
 - script: terraform plan -input=false -var-file=${{ parameters.varfile }} -var 'subscription_id=$(armsubscriptionid)' -var 'tenant_id=$(armtenantid)' -var 'client_id=$(ARMCLIENTID)' -var 'client_secret=$(ARMCLIENTSECRET)' -var "prefix=${{ parameters.stage }}"
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform Plan
