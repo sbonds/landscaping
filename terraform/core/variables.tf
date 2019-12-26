@@ -1,11 +1,21 @@
 variable "tenant_id" {
   type        = string
-  description = "The AD subscription in which to provision resources"
+  description = "The AD tenant in which to provision resources"
 }
 
 variable "subscription_id" {
   type        = string
   description = "The Azure subscription in which to provision resources"
+}
+
+variable "client_id" {
+  type        = string
+  description = "The client id of the SP used to login"
+}
+
+variable "client_secret" {
+  type        = string
+  description = "The secret of the specified client id"
 }
 
 variable "workload" {
