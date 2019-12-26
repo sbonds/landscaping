@@ -28,7 +28,7 @@ stages:
       parameters:
         varfile: dev.tfvars
         stage: dev
-- stage: Deploy Dev
+- stage: DeployDev
   displayName: Build stage
   dependsOn: Dev
   jobs:
