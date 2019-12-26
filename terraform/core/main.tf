@@ -1,11 +1,11 @@
-######################################################################### BACKEND
+# Back-end
 terraform {
   backend "azurerm" {
     key                  = "core.terraform.tfstate"
   }
 }
 
-######################################################################### PROVIDER
+# Provider
 provider "azurerm" { 
   version = "=1.38.0"
   subscription_id = var.subscription_id
@@ -13,24 +13,17 @@ provider "azurerm" {
   client_secret   = var.client_secret
   tenant_id       = var.tenant_id
 }
-provider "azuread" {
-  version = "=0.7.0"
-  subscription_id = var.subscription_id
-  client_id       = var.client_id
-  client_secret   = var.client_secret
-  tenant_id       = var.tenant_id
-}
 
-######################################################################### RESOURCES
+# Resources
 resource "azurerm_resource_group" "resource_group" {
-  name     = "${var.prefix}-${var.workload}-core"
-  location = var.region
+  name                = "${var.prefix}-${var.workload}-core"
+  location            = var.region
 }
 
 resource "random_string" "random_string_log_analytics_workspace_name_suffix" {
-  length = 4
-  special = false
-  upper = false
+  length              = 4
+  special             = false
+  upper               = false
 }
 
 resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
@@ -83,40 +76,7 @@ resource "azurerm_dns_cname_record" "dns_cname_wildcard_record" {
   record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
 }
 
-resource "azuread_application" "application_aks_cluster" {
-  name = "${var.prefix}-aks-cluster"
-  type = "native"
-}
-
-resource "azuread_service_principal" "service_principal_aks_cluster" {
-  application_id = azuread_application.application_aks_cluster.application_id
-  # The following tag is required to make the service principal visible under enterprise applications in the portal
-  tags = ["WindowsAzureActiveDirectoryIntegratedApp"]
-}
-
-resource "random_password" "random_password_application_aks_cluster" {
-  length = 16
-  special = true
-
-  keepers = {
-    azuread_application = azuread_application.application_aks_cluster.application_id
-  }
-}
-
-resource "azuread_application_password" "application_password_aks_cluster" {
-  application_object_id = azuread_application.application_aks_cluster.id
-  value = random_password.random_password_application_aks_cluster.result
-
-  end_date = timeadd(timestamp(), "87600h")
-
-  lifecycle {
-    ignore_changes = [
-      end_date
-    ]
-  }
-}
-
-######################################################################### ALL
+# All
 locals {
   
 }
