@@ -18,6 +18,11 @@ provider "azurerm" {
 resource "azurerm_resource_group" "resource_group" {
   name                = "${var.prefix}-${var.workload}-core"
   location            = var.region
+
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload
+  }
 }
 
 resource "random_string" "random_string_log_analytics_workspace_name_suffix" {
@@ -32,6 +37,11 @@ resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
   resource_group_name = azurerm_resource_group.resource_group.name
   sku                 = "PerGB2018"
   retention_in_days   = 30
+
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload
+  }
 }
 
 resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
@@ -52,6 +62,11 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
     interval_in_seconds          = 30
     timeout_in_seconds           = 9
     tolerated_number_of_failures = 3
+  }
+
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload
   }
 }
 

@@ -35,12 +35,36 @@ variable "region" {
 
 variable "aks_sku" {
   type        = string
-  default     = "Standard_D2_v2"
-  description = "Prefix for all the resources provisioned"
+  default     = "Standard_B2ms"
+  description = "Machine sku used for node pool"
 }
 
 variable "aks_count" {
-  type        = string
+  type        = number
   default     = 1
-  description = "The Azure region in which to provision resources"
+  description = "Initial node pool siwe"
+}
+
+variable "aks_count_min" {
+  type        = number
+  default     = 1
+  description = "Min node pool size"
+}
+
+variable "aks_count_max" {
+  type        = number
+  default     = 10
+  description = "Max node pool size"
+}
+
+variable "aks_os_disk" {
+  type        = number
+  default     = 30
+  description = "Size of OS disk on node"
+}
+
+variable "aks_os_type" {
+  type        = string
+  default     = "Linux"
+  description = "Node os type"
 }

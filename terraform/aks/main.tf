@@ -18,6 +18,10 @@ provider "azurerm" {
 resource "azurerm_resource_group" "resource_group" {
   name                = "${var.prefix}-${var.workload}-aks"
   location            = var.region
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload
+  }
 }
 
 resource "random_string" "random_string_aks_suffix" {
@@ -41,6 +45,39 @@ resource "azurerm_kubernetes_cluster" "example" {
   service_principal {
     client_id     = var.client_id
     client_secret = var.client_secret
+  }
+
+    agent_pool_profile {
+    name                = "default"
+    count               = var.aks_count
+    min_count           = var.aks_count_min
+    max_count           = var.aks_count_max
+    vm_size             = var.aks_sku
+    os_type             = var.aks_os_type
+    os_disk_size_gb     = var.aks_os_disk
+    type                = "VirtualMachineScaleSets"
+    availability_zones  = [ "1", "2", "3"]
+    enable_auto_scaling = true
+    vnet_subnet_id      = var.vnet_subnet_id
+  }
+
+  #network_profile {
+  #  network_plugin     = var.network_plugin
+  #  network_policy     = var.network_policy
+  #  load_balancer_sku  = var.load_balancer_sku
+  #  service_cidr       = var.service_cidr
+  #  dns_service_ip     = var.dns_service_ip
+  #  docker_bridge_cidr = var.docker_bridge_cidr
+  #}
+
+  addon_profile {
+    oms_agent {
+      enabled                    = true
+      log_analytics_workspace_id = data.terraform_remote_state.remote_state_core.outputs.log_analytics_workspace_id
+    }
+    kube_dashboard {
+      enabled = false
+    }
   }
 
   tags = {
