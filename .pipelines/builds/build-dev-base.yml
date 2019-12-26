@@ -32,7 +32,7 @@ stages:
   displayName: Deploy Dev Environment
   dependsOn: Dev
   jobs:
-  - job: LandScaping_Deploy_Dev
+  - job: LandScaping_Deploy_Dev_Core
     variables:
     - group: vmchooser
     pool:
@@ -42,3 +42,4 @@ stages:
       parameters:
         varfile: dev.tfvars
         stage: dev
+        module: core
