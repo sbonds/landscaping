@@ -14,6 +14,14 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
 }
 
+# Remote State Data
+data "terraform_remote_state" "remote_state_core" {
+  backend = "azurerm"
+  config = {
+    key                  = "core.terraform.tfstate"
+  }
+}
+
 # Resources
 resource "azurerm_resource_group" "resource_group" {
   name                = "${var.prefix}-${var.workload}-aks"
