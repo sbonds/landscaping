@@ -1,9 +1,9 @@
 # Back-end
-terraform {
-  backend "azurerm" {
-    key                  = "core.terraform.tfstate"
-  }
-}
+# terraform {
+#   backend "azurerm" {
+#     key                  = "core.terraform.tfstate"
+#   }
+# }
 
 # Provider
 provider "azurerm" { 
@@ -27,10 +27,10 @@ resource "random_string" "random_string_aks_suffix" {
 }
 
 resource "azurerm_kubernetes_cluster" "example" {
-  name                = "${var.prefix}-${var.workload}-aks-${random_string_aks_suffix}"
+  name                = "${var.prefix}-${var.workload}-aks-${random_string.random_string_aks_suffix.result}"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
-  dns_prefix          = "${var.prefix}${var.workload}${random_string_aks_suffix}"
+  dns_prefix          = "${var.prefix}${var.workload}${random_string.random_string_aks_suffix.result}"
 
   default_node_pool {
     name       = "default"
@@ -46,7 +46,7 @@ resource "azurerm_kubernetes_cluster" "example" {
   tags = {
     Environment = var.prefix,
     Workload = var.workload,
-    Deployment = "Blue"
+    Deployment = "Created"
   }
 }
 
