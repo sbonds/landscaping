@@ -29,6 +29,7 @@ stages:
         module: shared
         stage: shared
   - job: Build_Core
+    dependsOn: Build_Shared
     variables:
     - group: vmchooser
     pool:
