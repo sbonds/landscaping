@@ -18,9 +18,10 @@ provider "azurerm" {
 data "terraform_remote_state" "remote_state_shared" {
   backend = "azurerm"
   config = {
-    key               = "shared.terraform.tfstate"
-    container_name    = "shared"
-    storage_account_name = var.storage_account_name
+    key                   = "shared.terraform.tfstate"
+    container_name        = "shared"
+    storage_account_name  = var.storage_account_name
+    access_key            = var.storage_account_key
   }
 }
 

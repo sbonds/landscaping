@@ -3,9 +3,9 @@ steps:
 - script: terraform init -input=false -backend-config="container_name=${{ parameters.stage }}" -backend-config="access_key=$(storageaccountkey)" -backend-config="storage_account_name=$(storageaccountname)" -backend-config="subscription_id=$(armsubscriptionid)" -backend-config="tenant_id=$(armtenantid)" -backend-config="client_id=$(ARMCLIENTID)" -backend-config="client_secret=$(ARMCLIENTSECRET)" -var 'storage_account_name=$(storageaccountname)'
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform 
-- script: terraform plan -input=false -var-file=${{ parameters.varfile }} -var 'subscription_id=$(armsubscriptionid)' -var 'tenant_id=$(armtenantid)' -var 'client_id=$(ARMCLIENTID)' -var 'client_secret=$(ARMCLIENTSECRET)' -var "prefix=${{ parameters.stage }}" -var 'storage_account_name=$(storageaccountname)'
+- script: terraform plan -input=false -var-file=${{ parameters.varfile }} -var 'subscription_id=$(armsubscriptionid)' -var 'tenant_id=$(armtenantid)' -var 'client_id=$(ARMCLIENTID)' -var 'client_secret=$(ARMCLIENTSECRET)' -var "prefix=${{ parameters.stage }}" -var 'storage_account_name=$(storageaccountname)' -var 'storage_account_key=$(storageaccountkey)'
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform Plan
-- script: terraform apply -input=false -auto-approve -var-file=${{ parameters.varfile }} -var 'subscription_id=$(armsubscriptionid)' -var 'tenant_id=$(armtenantid)' -var 'client_id=$(ARMCLIENTID)' -var 'client_secret=$(ARMCLIENTSECRET)' -var "prefix=${{ parameters.stage }}" -var 'storage_account_name=$(storageaccountname)'
+- script: terraform apply -input=false -auto-approve -var-file=${{ parameters.varfile }} -var 'subscription_id=$(armsubscriptionid)' -var 'tenant_id=$(armtenantid)' -var 'client_id=$(ARMCLIENTID)' -var 'client_secret=$(ARMCLIENTSECRET)' -var "prefix=${{ parameters.stage }}" -var 'storage_account_name=$(storageaccountname)' -var 'storage_account_key=$(storageaccountkey)'
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform Apply

@@ -23,6 +23,11 @@ variable "storage_account_name" {
   description = "Used for the remote state data"
 }
 
+variable "storage_account_key" {
+  type        = string
+  description = "Used for the remote state data"
+}
+
 variable "workload" {
   type        = string
   description = "The workload we are deploying"
