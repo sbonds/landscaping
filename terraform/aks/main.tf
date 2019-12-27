@@ -18,8 +18,10 @@ provider "azurerm" {
 data "terraform_remote_state" "remote_state_core" {
   backend = "azurerm"
   config = {
-    key               = "core.terraform.tfstate"
-    container_name    = var.prefix
+    key                   = "core.terraform.tfstate"
+    container_name        = var.prefix
+    storage_account_name  = var.storage_account_name
+    access_key            = var.storage_account_key
   }
 }
 
