@@ -81,21 +81,21 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
   }
 }
 
-#resource "azurerm_dns_cname_record" "dns_cname_record" {
-#  name                = var.subdomain
-#  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
-#  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
-#  ttl                 = 0
-#  record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
-#}
+resource "azurerm_dns_cname_record" "dns_cname_record" {
+  name                = var.subdomain
+  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
+  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
+  ttl                 = 0
+  record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
+}
 
-#resource "azurerm_dns_cname_record" "dns_cname_wildcard_record" {
-#  name                = "*.${var.subdomain}"
-#  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
-#  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
-#  ttl                 = 0
-#  record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
-#}
+resource "azurerm_dns_cname_record" "dns_cname_wildcard_record" {
+  name                = "*.${var.subdomain}"
+  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
+  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
+  ttl                 = 0
+  record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
+}
 
 # All
 locals {
