@@ -1,5 +1,6 @@
 steps:
-#- download: VMchooserLandscape
+- download: current
+  artifact: VMchooserLandscape${{ parameters.module }}
 - script: terraform init -input=false -backend-config="container_name=${{ parameters.stage }}" -backend-config="access_key=$(storageaccountkey)" -backend-config="storage_account_name=$(storageaccountname)" -backend-config="subscription_id=$(armsubscriptionid)" -backend-config="tenant_id=$(armtenantid)" -backend-config="client_id=$(ARMCLIENTID)" -backend-config="client_secret=$(ARMCLIENTSECRET)" -var 'storage_account_name=$(storageaccountname)'
   workingDirectory: $(Build.Repository.LocalPath)/terraform/${{ parameters.module }}
   displayName: Terraform 
