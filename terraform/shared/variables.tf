@@ -18,6 +18,11 @@ variable "client_secret" {
   description = "The secret of the specified client id"
 }
 
+variable "storage_account_name" {
+  type        = string
+  description = "Used for the remote state data"
+}
+
 variable "workload" {
   type        = string
   description = "The workload we are deploying"
