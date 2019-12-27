@@ -41,6 +41,11 @@ resource "azurerm_container_registry" "acr" {
   location                 = var.region
   resource_group_name      = azurerm_resource_group.resource_group.name
   sku                      = "Basic"
+  
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload
+  }
 }
 
 resource "random_string" "random_string_log_analytics_workspace_name_suffix" {
