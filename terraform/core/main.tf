@@ -20,7 +20,7 @@ data "terraform_remote_state" "remote_state_shared" {
   config = {
     key               = "shared.terraform.tfstate"
     container_name    = "shared"
-    storage_account_name = terraform.backend.storage_account_name
+    storage_account_name = var.storage_account_name
   }
 }
 
