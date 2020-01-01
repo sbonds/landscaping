@@ -107,8 +107,7 @@ resource "azurerm_devspace_controller" "devspacecontroller" {
     name = "S1"
     tier = "Standard"
   }
-
-  host_suffix                              = "suffix"
+  
   target_container_host_resource_id        = "${azurerm_kubernetes_cluster.kubernetescluster.id}"
   target_container_host_credentials_base64 = "${base64encode(azurerm_kubernetes_cluster.kubernetescluster.kube_config_raw)}"
 
