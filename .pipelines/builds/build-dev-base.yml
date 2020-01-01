@@ -88,3 +88,15 @@ stages:
         varfile: ../environments/dev.tfvars
         stage: dev
         module: aks
+  - job: Configure_Dev_Aks
+    dependsOn: Deploy_Dev_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-aks-configure.yml
+      parameters:
+        varfile: ../environments/dev.tfvars
+        stage: dev
+        module: aks

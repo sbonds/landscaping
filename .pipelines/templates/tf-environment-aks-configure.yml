@@ -1,0 +1,10 @@
+steps:
+- bash: |
+    az login -u $(ARMCLIENTID) -p $(ARMCLIENTSECRET)
+    az account set -s $(armsubscriptionid)
+    az aks use-dev-spaces -g {{ parameters.stage }}-$(workload)-{{ parameters.module }} -n {{ parameters.stage }}-$(workload)-{{ parameters.module }}-* --yes --space "Default"
+    az aks update -g {{ parameters.stage }}-$(workload)-{{ parameters.module }} -n {{ parameters.stage }}-$(workload)-{{ parameters.module }}-* --attach-acr $(registry)
+  displayName: Configure AKS Cluster
+  env:
+    registry: vmchooserregistry
+    workload: vmchooser
