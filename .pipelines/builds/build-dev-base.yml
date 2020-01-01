@@ -89,7 +89,6 @@ stages:
         stage: dev
         module: aks
   - job: Configure_Dev_Aks
-    dependsOn: Deploy_Dev_Aks
     variables:
     - group: vmchooser
     pool:
