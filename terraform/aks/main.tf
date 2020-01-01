@@ -98,6 +98,27 @@ resource "azurerm_kubernetes_cluster" "kubernetescluster" {
   }
 }
 
+resource "azurerm_devspace_controller" "devspacecontroller" {
+  name                = "${var.prefix}-${var.workload}-aksdsc-${random_string.random_string_aks_suffix.result}"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+
+  sku {
+    name = "S1"
+    tier = "Standard"
+  }
+
+  host_suffix                              = "suffix"
+  target_container_host_resource_id        = "${azurerm_kubernetes_cluster.kubernetescluster.id}"
+  target_container_host_credentials_base64 = "${base64encode(azurerm_kubernetes_cluster.kubernetescluster.kube_config_raw)}"
+
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload,
+    Deployment = "Created"
+  }
+}
+
 # All
 locals {
   
