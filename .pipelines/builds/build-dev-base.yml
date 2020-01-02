@@ -13,6 +13,7 @@ trigger:
   paths:
     include:
     - /terraform/
+    - /scripts/
     - /.pipelines/templates/tf*
 stages:
 - stage: Dev
