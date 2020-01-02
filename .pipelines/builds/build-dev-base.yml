@@ -16,7 +16,7 @@ trigger:
     - /scripts/
     - /.pipelines/templates/tf*
 stages:
-- stage: Dev
+- stage: Build
   displayName: Build stage
   jobs:
   - job: Build_Shared
@@ -50,9 +50,9 @@ stages:
       parameters:
         module: aks
         stage: dev
-- stage: DeployDev
-  displayName: Deploy Development Environment
-  dependsOn: Dev
+- stage: DeployCore
+  displayName: Deploy Core - Shared Components
+  dependsOn: Build
   jobs:
   - job: Deploy_Shared_Core
     variables:
@@ -65,8 +65,11 @@ stages:
         varfile: ../environments/shared.tfvars
         stage: shared
         module: shared
+- stage: DeployDev
+  displayName: Deploy Development Environment
+  dependsOn: DeployCore
+  jobs:
   - job: Deploy_Dev_Core
-    dependsOn: Deploy_Shared_Core
     variables:
     - group: vmchooser
     pool:
@@ -107,7 +110,6 @@ stages:
   displayName: Deploy Production Environment
   dependsOn: DeployDev
   - job: Deploy_Prd_Core
-    dependsOn: Deploy_Dev_Aks
     variables:
     - group: vmchooser
     pool:
