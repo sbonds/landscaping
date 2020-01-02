@@ -27,7 +27,7 @@ data "terraform_remote_state" "remote_state_shared" {
 
 # Resources
 resource "azurerm_resource_group" "resource_group" {
-  name                = "${var.prefix}-${var.workload}-core"
+  name                = "${var.workload}-${var.prefix}-core"
   location            = var.region
 
   tags = {
