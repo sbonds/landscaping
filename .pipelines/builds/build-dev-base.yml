@@ -109,6 +109,7 @@ stages:
 - stage: DeployPrd
   displayName: Deploy Production Environment
   dependsOn: DeployDev
+  jobs:
   - job: Deploy_Prd_Core
     variables:
     - group: vmchooser
