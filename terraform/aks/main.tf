@@ -36,7 +36,7 @@ resource "azurerm_resource_group" "resource_group" {
 }
 
 resource "random_string" "random_string_aks_suffix" {
-  length              = 4
+  length              = 5
   special             = false
   upper               = false
 }
