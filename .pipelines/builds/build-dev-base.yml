@@ -51,7 +51,7 @@ stages:
         module: aks
         stage: dev
 - stage: DeployDev
-  displayName: Deploy Dev Environment
+  displayName: Deploy Development Environment
   dependsOn: Dev
   jobs:
   - job: Deploy_Shared_Core
@@ -90,6 +90,7 @@ stages:
         stage: dev
         module: aks
   - job: Configure_Dev_Aks
+    dependsOn: Deploy_Dev_Aks
     variables:
     - group: vmchooser
     pool:
@@ -99,6 +100,47 @@ stages:
       parameters:
         varfile: ../environments/dev.tfvars
         stage: dev
+        module: aks
+        workload: vmchooser
+        registry: vmchooserregistry
+- stage: DeployPrd
+  displayName: Deploy Production Environment
+  dependsOn: DeployDev
+  - job: Deploy_Prd_Core
+    dependsOn: Deploy_Dev_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: ../environments/prd.tfvars
+        stage: prd
+        module: core
+  - job: Deploy_Prd_Aks
+    dependsOn: Deploy_Prd_Core
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: ../environments/prd.tfvars
+        stage: prd
+        module: aks
+  - job: Configure_Prd_Aks
+    dependsOn: Deploy_Prd_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-aks-configure.yml
+      parameters:
+        varfile: ../environments/prd.tfvars
+        stage: prd
         module: aks
         workload: vmchooser
         registry: vmchooserregistry

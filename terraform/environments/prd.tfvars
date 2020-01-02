@@ -1,0 +1,5 @@
+prefix = "prd"
+workload = "vmchooser"
+region = "westeurope"
+domain = "vmchooser.com"
+subdomain = "prd"
