@@ -99,3 +99,5 @@ stages:
         varfile: ../environments/dev.tfvars
         stage: dev
         module: aks
+        workload: vmchooser
+        registry: vmchooserregistry
