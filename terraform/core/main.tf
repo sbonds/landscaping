@@ -118,6 +118,7 @@ resource "azurerm_key_vault" "keyvault" {
 
 resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
   vault_name          = azurerm_key_vault.keyvault.name
+  resource_group_name = azurerm_key_vault.keyvault.resource_group_name
 
   tenant_id = var.tenant_id
   object_id = var.object_id
