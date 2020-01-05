@@ -126,6 +126,12 @@ resource "azurerm_cosmosdb_account" "db" {
     max_interval_in_seconds = 10
     max_staleness_prefix    = 200
   }
+
+  geo_location {
+    location          = azurerm_resource_group.resource_group.location
+    failover_priority = 0
+  }
+
 }
 
 resource "azurerm_cosmosdb_mongo_database" "db" {
@@ -178,6 +184,7 @@ resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
     "get", 
     "set", 
     "list",
+    "delete",
   ]
 
   depends_on = [azurerm_key_vault.keyvault]
