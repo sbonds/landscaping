@@ -118,7 +118,6 @@ resource "azurerm_key_vault" "keyvault" {
 
 resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
   vault_name          = azurerm_key_vault.keyvault.name
-  resource_group_name = azurerm_key_vault.keyvault.resource_group_name
 
   tenant_id = var.tenant_id
   object_id = var.object_id
@@ -129,14 +128,14 @@ resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
     "list",
   ]
 
-  depends_on = ["azurerm_key_vault.keyvault"]
+  depends_on = [azurerm_key_vault.keyvault]
 }
 
 resource "azurerm_key_vault_secret" "keyvaultsecretsapk" {
-  name      = "APPINSIGHTS_INSTRUMENTATIONKEY"
+  name      = "APPINSIGHTSINSTRUMENTATIONKEY"
   value     = azurerm_application_insights.appinsights.instrumentation_key
   vault_uri = azurerm_key_vault.keyvault.vault_uri
-  depends_on = ["azurerm_key_vault_access_policy.keyvaultpolicysp"]
+  depends_on = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
 
 # All
