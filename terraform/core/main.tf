@@ -190,16 +190,44 @@ resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
   depends_on = [azurerm_key_vault.keyvault]
 }
 
-resource "azurerm_key_vault_secret" "keyvaultsecretaiik" {
+resource "azurerm_key_vault_secret" "APPINSIGHTSINSTRUMENTATIONKEY" {
   name         = "APPINSIGHTSINSTRUMENTATIONKEY"
   value        = azurerm_application_insights.appinsights.instrumentation_key
   key_vault_id = azurerm_key_vault.keyvault.id
   depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
 
-resource "azurerm_key_vault_secret" "keyvaultsecretcdbep" {
-  name         = "cosmosdbendpoint"
+resource "azurerm_key_vault_secret" "cosmosdbCollectionName" {
+  name         = "cosmosdbCollectionName"
+  value        = azurerm_cosmosdb_mongo_collection.db.name
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
+resource "azurerm_key_vault_secret" "cosmosdbDatabaseName" {
+  name         = "cosmosdbDatabaseName"
+  value        = azurerm_cosmosdb_account.db.name
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
+resource "azurerm_key_vault_secret" "cosmosdbHostName" {
+  name         = "cosmosdbHostName"
   value        = azurerm_cosmosdb_account.db.endpoint
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
+resource "azurerm_key_vault_secret" "cosmosdbMongodbConnectionString" {
+  name         = "cosmosdbMongodbConnectionString"
+  value        = azurerm_cosmosdb_account.db.connection_strings[0]
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
+resource "azurerm_key_vault_secret" "cosmosdbPassword" {
+  name         = "cosmosdbPassword"
+  value        = azurerm_cosmosdb_account.db.primary_master_key
   key_vault_id = azurerm_key_vault.keyvault.id
   depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
