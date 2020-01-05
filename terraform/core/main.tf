@@ -111,6 +111,45 @@ resource "azurerm_application_insights" "appinsights" {
   }
 }
 
+
+resource "azurerm_cosmosdb_account" "db" {
+  name                = "${var.workload}${var.prefix}db"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  offer_type          = "Standard"
+  kind                = "MongoDB"
+
+  enable_automatic_failover = true
+
+  consistency_policy {
+    consistency_level       = "Session"
+    max_interval_in_seconds = 10
+    max_staleness_prefix    = 200
+  }
+}
+
+resource "azurerm_cosmosdb_mongo_database" "db" {
+  name                = "${var.workload}${var.prefix}db"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+}
+
+resource "azurerm_cosmosdb_mongo_collection" "db" {
+  name                = "${var.workload}${var.prefix}db"
+  resource_group_name = azurerm_resource_group.resource_group.namerce_group_name
+  account_name        = azurerm_cosmosdb_account.db.name
+  database_name       = azurerm_cosmosdb_mongo_database.db.name
+
+  default_ttl_seconds = "604800"
+  shard_key           = "_id"
+  throughput          = 400
+
+  indexes {
+    key    = "_id"
+    unique = true
+  }
+}
+
 resource "azurerm_key_vault" "keyvault" {
   name                        = "${var.workload}${var.prefix}"
   location                    = azurerm_resource_group.resource_group.location
@@ -144,9 +183,16 @@ resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
   depends_on = [azurerm_key_vault.keyvault]
 }
 
-resource "azurerm_key_vault_secret" "keyvaultsecretsapk" {
+resource "azurerm_key_vault_secret" "keyvaultsecretaiik" {
   name         = "APPINSIGHTSINSTRUMENTATIONKEY"
   value        = azurerm_application_insights.appinsights.instrumentation_key
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
+resource "azurerm_key_vault_secret" "keyvaultsecretcdbep" {
+  name         = "cosmosdbendpoint"
+  value        = azurerm_cosmosdb_account.db.endpoint
   key_vault_id = azurerm_key_vault.keyvault.id
   depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
