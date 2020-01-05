@@ -14,6 +14,8 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
 }
 
+data "azurerm_client_config" "current" {}
+
 # Remote State Data
 data "terraform_remote_state" "remote_state_shared" {
   backend = "azurerm"
@@ -102,6 +104,11 @@ resource "azurerm_application_insights" "appinsights" {
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
   application_type    = "Web"
+
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload
+  }
 }
 
 resource "azurerm_key_vault" "keyvault" {
@@ -114,14 +121,19 @@ resource "azurerm_key_vault" "keyvault" {
   sku {
     name = "standard"
   }
+
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
   vault_name          = azurerm_key_vault.keyvault.name
   resource_group_name = azurerm_key_vault.keyvault.resource_group_name
 
-  tenant_id = var.tenant_id
-  object_id = var.object_id
+  tenant_id = "${data.azurerm_client_config.current.tenant_id}"
+  object_id = "${data.azurerm_client_config.current.service_principal_object_id}"
 
   secret_permissions = [
     "get", 
@@ -133,10 +145,10 @@ resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
 }
 
 resource "azurerm_key_vault_secret" "keyvaultsecretsapk" {
-  name      = "APPINSIGHTSINSTRUMENTATIONKEY"
-  value     = azurerm_application_insights.appinsights.instrumentation_key
-  vault_uri = azurerm_key_vault.keyvault.vault_uri
-  depends_on = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+  name         = "APPINSIGHTSINSTRUMENTATIONKEY"
+  value        = azurerm_application_insights.appinsights.instrumentation_key
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
 
 # All
