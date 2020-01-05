@@ -97,6 +97,48 @@ resource "azurerm_dns_cname_record" "dns_cname_wildcard_record" {
   record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
 }
 
+resource "azurerm_application_insights" "appinsights" {
+  name                = "${var.workload}${var.prefix}"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  application_type    = "Web"
+}
+
+resource "azurerm_key_vault" "keyvault" {
+  name                        = "${var.workload}${var.prefix}"
+  location                    = azurerm_resource_group.resource_group.location
+  resource_group_name         = azurerm_resource_group.resource_group.name
+  enabled_for_disk_encryption = true
+  tenant_id                   = var.tenant_id
+
+  sku {
+    name = "standard"
+  }
+}
+
+resource "azurerm_key_vault_access_policy" "keyvaultpolicysp" {
+  vault_name          = azurerm_key_vault.keyvault.name
+  resource_group_name = azurerm_key_vault.keyvault.resource_group_name
+
+  tenant_id = var.tenant_id
+  object_id = var.object_id
+
+  secret_permissions = [
+    "get", 
+    "set", 
+    "list",
+  ]
+
+  depends_on = ["azurerm_key_vault.keyvault"]
+}
+
+resource "azurerm_key_vault_secret" "keyvaultsecretsapk" {
+  name      = "APPINSIGHTS_INSTRUMENTATIONKEY"
+  value     = azurerm_application_insights.appinsights.instrumentation_key
+  vault_uri = azurerm_key_vault.keyvault.vault_uri
+  depends_on = ["azurerm_key_vault_access_policy.keyvaultpolicysp"]
+}
+
 # All
 locals {
   

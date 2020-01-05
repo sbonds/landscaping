@@ -8,6 +8,11 @@ variable "subscription_id" {
   description = "The Azure subscription in which to provision resources"
 }
 
+variable "object_id" {
+  type        = string
+  description = "The object id of the SP used to login"
+}
+
 variable "client_id" {
   type        = string
   description = "The client id of the SP used to login"
