@@ -130,7 +130,7 @@ resource "azurerm_cosmosdb_account" "db" {
 
 resource "azurerm_cosmosdb_mongo_database" "db" {
   name                = "${var.workload}${var.prefix}db"
-  location            = azurerm_resource_group.resource_group.location
+  account_name        = azurerm_cosmosdb_account.db.name
   resource_group_name = azurerm_resource_group.resource_group.name
 }
 
