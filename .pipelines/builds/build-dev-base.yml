@@ -1,9 +1,9 @@
 name: $(Date:yyyyMMdd)$(Rev:.r)
 resources:
   repositories:
-  - repository: vmchooserlandscaping
+  - repository: vmchoosertraefik
     type: github
-    name: vmchooser/landscaping
+    name: vmchooser/traefik-helm-chart
     endpoint: vmchooser
 trigger:
   batch: true
