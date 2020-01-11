@@ -94,7 +94,7 @@ resource "azurerm_kubernetes_cluster" "kubernetescluster" {
   tags = {
     Environment = var.prefix,
     Workload = var.workload,
-    Deployment = "Created"
+    Created = timestamp()
   }
 }
 
@@ -114,7 +114,6 @@ resource "azurerm_devspace_controller" "devspacecontroller" {
   tags = {
     Environment = var.prefix,
     Workload = var.workload,
-    Deployment = "Created"
   }
 }
 
