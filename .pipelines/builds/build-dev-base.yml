@@ -1,9 +1,9 @@
 name: $(Date:yyyyMMdd)$(Rev:.r)
 resources:
   repositories:
-  - repository: vmchoosertraefik
+  - repository: vmchooserbackendv3
     type: github
-    name: vmchooser/traefik-helm-chart
+    name: vmchooser/azure-vmchooser-backend-v3
     endpoint: vmchooser
 trigger:
   batch: true
