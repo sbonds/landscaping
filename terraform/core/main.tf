@@ -57,21 +57,21 @@ resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
   }
 }
 
-resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
-  name                = "${var.prefix}-traffic-manager-profile"
+resource "azurerm_traffic_manager_profile" "traffic_manager_profile_fe" {
+  name                = "${var.prefix}-fe-traffic-manager-profile"
   resource_group_name = azurerm_resource_group.resource_group.name
 
   traffic_routing_method = "Weighted"
 
   dns_config {
-    relative_name = "${replace(var.subdomain, ".", "-")}-${replace(var.domain, ".", "-")}"
+    relative_name = "www-${replace(var.subdomain, ".", "-")}-${replace(var.domain, ".", "-")}"
     ttl           = 1
   }
 
   monitor_config {
     protocol                     = "http"
     port                         = 80
-    path                         = "/health"
+    path                         = "/"
     interval_in_seconds          = 30
     timeout_in_seconds           = 9
     tolerated_number_of_failures = 3
@@ -79,24 +79,68 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
 
   tags = {
     Environment = var.prefix,
-    Workload = var.workload
+    Workload = var.workload,
+    Component = 'www'
   }
 }
 
-resource "azurerm_dns_cname_record" "dns_cname_record" {
+resource "azurerm_dns_cname_record" "dns_cname_record_fe" {
   name                = var.subdomain
   zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
   resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
   ttl                 = 0
-  record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
+  record              = azurerm_traffic_manager_profile.traffic_manager_profile_fe.fqdn
 }
 
-resource "azurerm_dns_cname_record" "dns_cname_wildcard_record" {
+resource "azurerm_dns_cname_record" "dns_cname_wildcard_record_fe" {
   name                = "*.${var.subdomain}"
   zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
   resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
   ttl                 = 0
-  record              = azurerm_traffic_manager_profile.traffic_manager_profile.fqdn
+  record              = azurerm_traffic_manager_profile.traffic_manager_profile_fe.fqdn
+}
+
+resource "azurerm_traffic_manager_profile" "traffic_manager_profile_be" {
+  name                = "${var.prefix}-be-traffic-manager-profile"
+  resource_group_name = azurerm_resource_group.resource_group.name
+
+  traffic_routing_method = "Weighted"
+
+  dns_config {
+    relative_name = "api-${replace(var.subdomain, ".", "-")}-${replace(var.domain, ".", "-")}"
+    ttl           = 1
+  }
+
+  monitor_config {
+    protocol                     = "http"
+    port                         = 80
+    path                         = "/"
+    interval_in_seconds          = 30
+    timeout_in_seconds           = 9
+    tolerated_number_of_failures = 3
+  }
+
+  tags = {
+    Environment = var.prefix,
+    Workload = var.workload,
+    Component = 'api'
+  }
+}
+
+resource "azurerm_dns_cname_record" "dns_cname_record_be" {
+  name                = var.subdomain
+  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
+  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
+  ttl                 = 0
+  record              = azurerm_traffic_manager_profile.traffic_manager_profile_be.fqdn
+}
+
+resource "azurerm_dns_cname_record" "dns_cname_wildcard_record_be" {
+  name                = "*.${var.subdomain}"
+  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
+  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
+  ttl                 = 0
+  record              = azurerm_traffic_manager_profile.traffic_manager_profile_be.fqdn
 }
 
 resource "azurerm_application_insights" "appinsights" {
@@ -110,7 +154,6 @@ resource "azurerm_application_insights" "appinsights" {
     Workload = var.workload
   }
 }
-
 
 resource "azurerm_cosmosdb_account" "db" {
   name                = "${var.workload}${var.prefix}db"
