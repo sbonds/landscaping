@@ -11,17 +11,17 @@ output "log_analytics_workspace_id" {
 }
 
 output "traffic_manager_profile_name_be" {
-  value = azurerm_traffic_manager_profile_be.traffic_manager_profile.name
+  value = azurerm_traffic_manager_profile.traffic_manager_profile_be.name
 }
 
 output "traffic_manager_profile_id_be" {
-  value = azurerm_traffic_manager_profile_be.traffic_manager_profile.id
+  value = azurerm_traffic_manager_profile.traffic_manager_profile_be.id
 }
 
 output "traffic_manager_profile_name_fe" {
-  value = azurerm_traffic_manager_profile_fe.traffic_manager_profile.name
+  value = azurerm_traffic_manager_profile.traffic_manager_profile_fe.name
 }
 
 output "traffic_manager_profile_id_fe" {
-  value = azurerm_traffic_manager_profile_fe.traffic_manager_profile.id
+  value = azurerm_traffic_manager_profile.traffic_manager_profile_fe.id
 }
