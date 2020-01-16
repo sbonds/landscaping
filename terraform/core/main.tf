@@ -80,7 +80,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_fe" {
   tags = {
     Environment = var.prefix,
     Workload = var.workload,
-    Component = 'www'
+    Component = "www"
   }
 }
 
@@ -123,7 +123,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_be" {
   tags = {
     Environment = var.prefix,
     Workload = var.workload,
-    Component = 'api'
+    Component = "api"
   }
 }
 
