@@ -85,7 +85,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_fe" {
 }
 
 resource "azurerm_dns_cname_record" "dns_cname_record_fe" {
-  name                = var.subdomain
+  name                = "fe.${var.subdomain}"
   zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
   resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
   ttl                 = 0
@@ -93,7 +93,7 @@ resource "azurerm_dns_cname_record" "dns_cname_record_fe" {
 }
 
 resource "azurerm_dns_cname_record" "dns_cname_wildcard_record_fe" {
-  name                = "*.${var.subdomain}"
+  name                = "*.fe.${var.subdomain}"
   zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
   resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
   ttl                 = 0
@@ -128,7 +128,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_be" {
 }
 
 resource "azurerm_dns_cname_record" "dns_cname_record_be" {
-  name                = var.subdomain
+  name                = "be.${var.subdomain}"
   zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
   resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
   ttl                 = 0
@@ -136,7 +136,7 @@ resource "azurerm_dns_cname_record" "dns_cname_record_be" {
 }
 
 resource "azurerm_dns_cname_record" "dns_cname_wildcard_record_be" {
-  name                = "*.${var.subdomain}"
+  name                = "*.be.${var.subdomain}"
   zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
   resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
   ttl                 = 0
