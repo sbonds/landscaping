@@ -240,6 +240,13 @@ resource "azurerm_key_vault_secret" "APPINSIGHTSINSTRUMENTATIONKEY" {
   depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
 
+resource "azurerm_key_vault_secret" "APIHOSTNAME" {
+  name         = "APIHOSTNAME"
+  value        = "api-${replace(var.subdomain, ".", "-")}-${replace(var.domain, ".", "-")}.trafficmanager.net"
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
 resource "azurerm_key_vault_secret" "cosmosdbCollectionName" {
   name         = "cosmosdbCollectionName"
   value        = azurerm_cosmosdb_mongo_collection.db.name
