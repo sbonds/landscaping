@@ -247,7 +247,7 @@ resource "azurerm_key_vault_secret" "APIHOSTNAME" {
   depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
 
-resource "azurerm_key_vault_secret" "APIHOSTNAME" {
+resource "azurerm_key_vault_secret" "WWWHOSTNAME" {
   name         = "WWWHOSTNAME"
   value        = "www-${replace(var.subdomain, ".", "-")}-${replace(var.domain, ".", "-")}.trafficmanager.net"
   key_vault_id = azurerm_key_vault.keyvault.id
