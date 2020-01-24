@@ -51,7 +51,7 @@ stages:
         module: aks
         stage: dev
   - job: Configure_Dev_Istio
-    dependsOn: Deploy_Dev_Aks
+    # dependsOn: Deploy_Dev_Aks
     variables:
     - group: vmchooser
     pool:
