@@ -8,3 +8,4 @@ steps:
   inputs:
     scriptPath: $(Build.Repository.LocalPath)/scripts/aks-install-istio.sh
     args: "${{ parameters.workload }} ${{ parameters.stage }}"
+  displayName: Install Istio

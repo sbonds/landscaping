@@ -50,17 +50,6 @@ stages:
       parameters:
         module: aks
         stage: dev
-  - job: Configure_Dev_Istio
-    # dependsOn: Deploy_Dev_Aks
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-aks-istio.yml
-      parameters:
-        stage: dev
-        workload: vmchooser
 - stage: DeployCore
   displayName: Deploy Core - Shared Components
   dependsOn: Build
@@ -178,6 +167,5 @@ stages:
     steps:
     - template: ../templates/tf-environment-aks-istio.yml
       parameters:
-        stage: dev
-        module: aks
+        stage: prd
         workload: vmchooser
