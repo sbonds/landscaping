@@ -9,4 +9,4 @@ steps:
     export PATH=$PWD/bin:$PATH
     istioctl manifest apply
   displayName: Install Istio
-  workingDirectory: $(Build.Repository.LocalPath)/helm/
+  workingDirectory: $(Build.Repository.LocalPath)/
