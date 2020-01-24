@@ -6,5 +6,5 @@ steps:
   workingDirectory: $(Build.Repository.LocalPath)/
 - task: ShellScript@2
   inputs:
-    scriptPath: $(Build.Repository.LocalPath)/scripts/aks-configure-aks-istio.sh
+    scriptPath: $(Build.Repository.LocalPath)/scripts/aks-install-istio.sh
     args: "${{ parameters.workload }} ${{ parameters.stage }}"
