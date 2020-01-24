@@ -106,6 +106,18 @@ stages:
         module: aks
         workload: vmchooser
         registry: vmchooserregistry
+  - job: Configure_Dev_Istio
+    dependsOn: Deploy_Dev_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-aks-istio.yml
+      parameters:
+        stage: dev
+        module: aks
+        workload: vmchooser
 - stage: DeployPrd
   displayName: Deploy Production Environment
   dependsOn: DeployDev
@@ -147,3 +159,15 @@ stages:
         module: aks
         workload: vmchooser
         registry: vmchooserregistry
+  - job: Configure_Prd_Istio
+    dependsOn: Deploy_Prd_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-aks-istio.yml
+      parameters:
+        stage: dev
+        module: aks
+        workload: vmchooser
