@@ -32,11 +32,10 @@ function getTrafficManagerResourcegroup {
 }
 
 function addIstioGatewayToTrafficManager {
-  servicename="istio-ingressgateway"
   external_ip=""
   while [ -z $external_ip ]; do
     echo "Waiting for end point..."
-    external_ip=$(kubectl get svc "$servicename" --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}} --namespace istio-system")
+    external_ip=$(kubectl get svc "istio-ingressgateway" --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --namespace "istio-system")
     [ -z "$external_ip" ] && sleep 10
   done
   echo 'End point ready:' && echo $external_ip
