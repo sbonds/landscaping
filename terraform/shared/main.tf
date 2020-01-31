@@ -53,6 +53,22 @@ resource "azurerm_dns_zone" "dns_zone" {
   }
 }
 
+resource "azurerm_dns_cname_record" "dns_cname_record_be" {
+  name                = "www.${var.domain}"
+  zone_name           = azurerm_dns_zone.dns_zone.name
+  resource_group_name = azurerm_resource_group.resource_group.name
+  ttl                 = 0
+  record              = "fe.prd.${var.domain}"
+}
+
+resource "azurerm_dns_cname_record" "dns_cname_record_be" {
+  name                = "api.${var.domain}"
+  zone_name           = azurerm_dns_zone.dns_zone.name
+  resource_group_name = azurerm_resource_group.resource_group.name
+  ttl                 = 0
+  record              = "be.prd.${var.domain}"
+}
+
 # All
 locals {
   
