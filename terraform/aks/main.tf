@@ -48,18 +48,10 @@ resource "azurerm_kubernetes_cluster" "kubernetescluster" {
   dns_prefix          = "${var.prefix}${var.workload}${random_string.random_string_aks_suffix.result}"
 
   default_node_pool {
-    name       = "default"
-    node_count = var.aks_count
-    vm_size    = var.aks_sku
-  }
-
-  service_principal {
-    client_id     = var.client_id
-    client_secret = var.client_secret
-  }
-
-  agent_pool_profile {
     name                = "default"
+    node_count          = var.aks_count
+    vm_size             = var.aks_sku
+    enable_auto_scaling = var.aks_autoscale
     count               = var.aks_count
     min_count           = var.aks_count_min
     max_count           = var.aks_count_max
@@ -68,18 +60,12 @@ resource "azurerm_kubernetes_cluster" "kubernetescluster" {
     os_disk_size_gb     = var.aks_os_disk
     type                = "VirtualMachineScaleSets"
     availability_zones  = [ "1", "2", "3"]
-    enable_auto_scaling = true
-    #vnet_subnet_id      = var.vnet_subnet_id
   }
 
-  #network_profile {
-  #  network_plugin     = var.network_plugin
-  #  network_policy     = var.network_policy
-  #  load_balancer_sku  = var.load_balancer_sku
-  #  service_cidr       = var.service_cidr
-  #  dns_service_ip     = var.dns_service_ip
-  #  docker_bridge_cidr = var.docker_bridge_cidr
-  #}
+  service_principal {
+    client_id     = var.client_id
+    client_secret = var.client_secret
+  }
 
   addon_profile {
     oms_agent {

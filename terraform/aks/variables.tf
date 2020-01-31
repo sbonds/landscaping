@@ -54,10 +54,16 @@ variable "aks_sku" {
   description = "Machine sku used for node pool"
 }
 
+variable "aks_autoscale" {
+  type        = bool
+  default     = true
+  description = "Cluster AutoScaling?"
+}
+
 variable "aks_count" {
   type        = number
   default     = 1
-  description = "Initial node pool siwe"
+  description = "Initial node pool size"
 }
 
 variable "aks_count_min" {
