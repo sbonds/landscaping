@@ -51,11 +51,9 @@ resource "azurerm_kubernetes_cluster" "kubernetescluster" {
     name                = "default"
     node_count          = var.aks_count
     enable_auto_scaling = var.aks_autoscale
-    count               = var.aks_count
     min_count           = var.aks_count_min
     max_count           = var.aks_count_max
     vm_size             = var.aks_sku
-    os_type             = var.aks_os_type
     os_disk_size_gb     = var.aks_os_disk
     type                = "VirtualMachineScaleSets"
     availability_zones  = [ "1", "2", "3"]
