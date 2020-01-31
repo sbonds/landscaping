@@ -74,6 +74,11 @@ resource "azurerm_kubernetes_cluster" "kubernetescluster" {
     }
   }
 
+  network_profile {
+    network_plugin    = "kubenet"
+    load_balancer_sku = "standard" # Required for availability zones
+  }
+
   tags = {
     Environment = var.prefix,
     Workload = var.workload,
