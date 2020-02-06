@@ -282,6 +282,13 @@ resource "azurerm_key_vault_secret" "WWWHOSTNAMEROOT" {
   depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
 
+resource "azurerm_key_vault_secret" "APEXHOSTNAMEROOT" {
+  name         = "APEXHOSTNAMEROOT"
+  value        = "${var.domain}"
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
 resource "azurerm_key_vault_secret" "cosmosdbCollectionName" {
   name         = "cosmosdbCollectionName"
   value        = azurerm_cosmosdb_mongo_collection.db.name
