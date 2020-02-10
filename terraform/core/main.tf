@@ -289,6 +289,27 @@ resource "azurerm_key_vault_secret" "APEXHOSTNAMEROOT" {
   depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
 }
 
+resource "azurerm_key_vault_secret" "DOCSHOSTNAME" {
+  name         = "DOCSHOSTNAME"
+  value        = "docs-${replace(var.subdomain, ".", "-")}-${replace(var.domain, ".", "-")}.trafficmanager.net"
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
+resource "azurerm_key_vault_secret" "DOCSHOSTNAMEEXT" {
+  name         = "DOCSHOSTNAMEEXT"
+  value        = "docs.${var.subdomain}.${var.domain}"
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
+resource "azurerm_key_vault_secret" "DOCSHOSTNAMEROOT" {
+  name         = "DOCSHOSTNAMEROOT"
+  value        = "docs.${var.domain}"
+  key_vault_id = azurerm_key_vault.keyvault.id
+  depends_on   = [azurerm_key_vault_access_policy.keyvaultpolicysp]
+}
+
 resource "azurerm_key_vault_secret" "cosmosdbCollectionName" {
   name         = "cosmosdbCollectionName"
   value        = azurerm_cosmosdb_mongo_collection.db.name
