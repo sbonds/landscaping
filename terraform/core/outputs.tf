@@ -25,3 +25,7 @@ output "traffic_manager_profile_name_fe" {
 output "traffic_manager_profile_id_fe" {
   value = azurerm_traffic_manager_profile.traffic_manager_profile_fe.id
 }
+
+output "appinsights_instrumentation_key" {
+  value = azurerm_application_insights.appinsights.instrumentation_key
+}

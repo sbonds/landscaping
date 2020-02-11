@@ -5,16 +5,16 @@ resources:
     type: github
     name: vmchooser/azure-vmchooser-backend-v3
     endpoint: vmchooser
-trigger: none
-#  batch: true
-#  branches:
-#    include:
-#    - master
-#  paths:
-#    include:
-#    - /terraform/
-#    - /scripts/
-#    - /.pipelines/templates/tf*
+trigger: 
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - /terraform/
+    - /scripts/
+    - /.pipelines/templates/tf*
 stages:
 - stage: Build
   displayName: Build stage
@@ -40,7 +40,7 @@ stages:
       parameters:
         module: core
         stage: dev
-  - job: Build_Aks
+  - job: Build_Serverless
     variables:
     - group: vmchooser
     pool:
@@ -49,7 +49,7 @@ stages:
     - template: ../templates/tf-environment-build.yml
       parameters:
         module: aks
-        stage: dev
+        stage: serverless
 - stage: DeployCore
   displayName: Deploy Core - Shared Components
   dependsOn: Build
@@ -80,7 +80,7 @@ stages:
         varfile: ../environments/dev.tfvars
         stage: dev
         module: core
-  - job: Deploy_Dev_Aks
+  - job: Deploy_Dev_Serverless
     dependsOn: Deploy_Dev_Core
     variables:
     - group: vmchooser
@@ -91,32 +91,7 @@ stages:
       parameters:
         varfile: ../environments/dev.tfvars
         stage: dev
-        module: aks
-  - job: Configure_Dev_Aks
-    dependsOn: Deploy_Dev_Aks
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-aks-configure.yml
-      parameters:
-        varfile: ../environments/dev.tfvars
-        stage: dev
-        module: aks
-        workload: vmchooser
-        registry: vmchooserregistry
-  - job: Configure_Dev_Istio
-    dependsOn: Deploy_Dev_Aks
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-aks-istio.yml
-      parameters:
-        stage: dev
-        workload: vmchooser
+        module: serverless
 - stage: DeployPrd
   displayName: Deploy Production Environment
   dependsOn: DeployDev
@@ -132,7 +107,7 @@ stages:
         varfile: ../environments/prd.tfvars
         stage: prd
         module: core
-  - job: Deploy_Prd_Aks
+  - job: Deploy_Prd_Serverless
     dependsOn: Deploy_Prd_Core
     variables:
     - group: vmchooser
@@ -143,29 +118,4 @@ stages:
       parameters:
         varfile: ../environments/prd.tfvars
         stage: prd
-        module: aks
-  - job: Configure_Prd_Aks
-    dependsOn: Deploy_Prd_Aks
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-aks-configure.yml
-      parameters:
-        varfile: ../environments/prd.tfvars
-        stage: prd
-        module: aks
-        workload: vmchooser
-        registry: vmchooserregistry
-  - job: Configure_Prd_Istio
-    dependsOn: Deploy_Prd_Aks
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-aks-istio.yml
-      parameters:
-        stage: prd
-        workload: vmchooser
+        module: serverless
