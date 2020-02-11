@@ -1,0 +1,171 @@
+name: $(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+  - repository: vmchooserbackendv3
+    type: github
+    name: vmchooser/azure-vmchooser-backend-v3
+    endpoint: vmchooser
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - /terraform/
+    - /scripts/
+    - /.pipelines/templates/tf*
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build_Shared
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-build.yml
+      parameters:
+        module: shared
+        stage: shared
+  - job: Build_Core
+    dependsOn: Build_Shared
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-build.yml
+      parameters:
+        module: core
+        stage: dev
+  - job: Build_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-build.yml
+      parameters:
+        module: aks
+        stage: dev
+- stage: DeployCore
+  displayName: Deploy Core - Shared Components
+  dependsOn: Build
+  jobs:
+  - job: Deploy_Shared_Core
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: ../environments/shared.tfvars
+        stage: shared
+        module: shared
+- stage: DeployDev
+  displayName: Deploy Development Environment
+  dependsOn: DeployCore
+  jobs:
+  - job: Deploy_Dev_Core
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: ../environments/dev.tfvars
+        stage: dev
+        module: core
+  - job: Deploy_Dev_Aks
+    dependsOn: Deploy_Dev_Core
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: ../environments/dev.tfvars
+        stage: dev
+        module: aks
+  - job: Configure_Dev_Aks
+    dependsOn: Deploy_Dev_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-aks-configure.yml
+      parameters:
+        varfile: ../environments/dev.tfvars
+        stage: dev
+        module: aks
+        workload: vmchooser
+        registry: vmchooserregistry
+  - job: Configure_Dev_Istio
+    dependsOn: Deploy_Dev_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-aks-istio.yml
+      parameters:
+        stage: dev
+        workload: vmchooser
+- stage: DeployPrd
+  displayName: Deploy Production Environment
+  dependsOn: DeployDev
+  jobs:
+  - job: Deploy_Prd_Core
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: ../environments/prd.tfvars
+        stage: prd
+        module: core
+  - job: Deploy_Prd_Aks
+    dependsOn: Deploy_Prd_Core
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-deploy.yml
+      parameters:
+        varfile: ../environments/prd.tfvars
+        stage: prd
+        module: aks
+  - job: Configure_Prd_Aks
+    dependsOn: Deploy_Prd_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-aks-configure.yml
+      parameters:
+        varfile: ../environments/prd.tfvars
+        stage: prd
+        module: aks
+        workload: vmchooser
+        registry: vmchooserregistry
+  - job: Configure_Prd_Istio
+    dependsOn: Deploy_Prd_Aks
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - template: ../templates/tf-environment-aks-istio.yml
+      parameters:
+        stage: prd
+        workload: vmchooser
