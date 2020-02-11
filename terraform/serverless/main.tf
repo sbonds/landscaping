@@ -37,7 +37,7 @@ resource "azurerm_resource_group" "resource_group" {
 
 ## AppService - frontend
 resource "azurerm_app_service_plan" "appservice" {
-  name                     = "${var.workload}-${var.prefix}-serverless-fe"
+  name                     = "${var.workload}-${var.prefix}-webapp-fe"
   resource_group_name      = "${azurerm_resource_group.resource_group.name}"
   location                 = "${azurerm_resource_group.resource_group.location}"
 
@@ -48,7 +48,7 @@ resource "azurerm_app_service_plan" "appservice" {
 }
 
 resource "azurerm_app_service" "appservice" {
-  name                     = "${var.workload}-${var.prefix}-serverless-fe"
+  name                     = "${var.workload}-${var.prefix}-webapp-fe"
   resource_group_name      = "${azurerm_resource_group.resource_group.name}"
   location                 = "${azurerm_resource_group.resource_group.location}"
   app_service_plan_id      = "${azurerm_app_service_plan.appservice.id}"
@@ -61,7 +61,7 @@ resource "azurerm_app_service" "appservice" {
 
 ## FunctionApp - backend
 resource "azurerm_storage_account" "functionapp" {
-  name                     = "${var.workload}-${var.prefix}-serverless-be"
+  name                     = "${var.workload}${var.prefix}funcbe"
   resource_group_name      = "${azurerm_resource_group.resource_group.name}"
   location                 = "${azurerm_resource_group.resource_group.location}"
   account_tier             = "Standard"
@@ -74,7 +74,7 @@ resource "azurerm_storage_account" "functionapp" {
 }
 
 resource "azurerm_app_service_plan" "functionapp" {
-  name                = "${var.workload}-${var.prefix}-serverless-be"
+  name                = "${var.workload}-${var.prefix}-func-be"
   location            = "${azurerm_resource_group.resource_group.location}"
   resource_group_name = "${azurerm_resource_group.resource_group.name}"
   kind                = "FunctionApp"
@@ -91,7 +91,7 @@ resource "azurerm_app_service_plan" "functionapp" {
 }
 
 resource "azurerm_function_app" "functionapp" {
-  name                      = "${var.workload}-${var.prefix}-serverless-be"
+  name                      = "${var.workload}-${var.prefix}-func-be"
   location                  = "${azurerm_resource_group.resource_group.location}"
   resource_group_name       = "${azurerm_resource_group.resource_group.name}"
   app_service_plan_id       = "${azurerm_app_service_plan.functionapp.id}"
