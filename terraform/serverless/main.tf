@@ -64,7 +64,7 @@ resource "azurerm_traffic_manager_endpoint" "webappfe" {
   resource_group_name = azurerm_resource_group.resource_group.name
   profile_name        = "${data.terraform_remote_state.remote_state_core.outputs.traffic_manager_profile_name_fe}"
   target_resource_id  = azurerm_app_service.appservice.id
-  type                = "azureendpoints"
+  type                = "azureEndpoints"
   weight              = 100
 }
 
@@ -132,7 +132,7 @@ resource "azurerm_traffic_manager_endpoint" "funcbe" {
   resource_group_name = azurerm_resource_group.resource_group.name
   profile_name        = "${data.terraform_remote_state.remote_state_core.outputs.traffic_manager_profile_name_be}"
   target_resource_id  = azurerm_function_app.functionapp.id
-  type                = "azureendpoints"
+  type                = "azureEndpoints"
   weight              = 100
 }
 
