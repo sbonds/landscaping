@@ -71,7 +71,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_fe" {
   monitor_config {
     protocol                     = "http"
     port                         = 80
-    path                         = "/"
+    path                         = "/index.html"
     interval_in_seconds          = 30
     timeout_in_seconds           = 9
     tolerated_number_of_failures = 3
@@ -114,7 +114,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_be" {
   monitor_config {
     protocol                     = "http"
     port                         = 80
-    path                         = "/"
+    path                         = "/api/getRegions"
     interval_in_seconds          = 30
     timeout_in_seconds           = 9
     tolerated_number_of_failures = 3

@@ -59,6 +59,15 @@ resource "azurerm_app_service" "appservice" {
 
 }
 
+resource "azurerm_traffic_manager_endpoint" "example" {
+  name                = "${var.workload}-${var.prefix}-webapp-fe"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  profile_name        = "${data.terraform_remote_state.remote_state_core.outputs.traffic_manager_profile_name_fe}"
+  target_resource_id  = azurerm_app_service.appservice.id
+  type                = "azureendpoints"
+  weight              = 100
+}
+
 ## FunctionApp - backend
 resource "azurerm_storage_account" "functionapp" {
   name                     = "${var.workload}${var.prefix}funcbe"
@@ -116,6 +125,15 @@ resource "azurerm_function_app" "functionapp" {
     Environment = var.prefix,
     Workload = var.workload
   }
+}
+
+resource "azurerm_traffic_manager_endpoint" "example" {
+  name                = "${var.workload}-${var.prefix}-func-be"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  profile_name        = "${data.terraform_remote_state.remote_state_core.outputs.traffic_manager_profile_name_be}"
+  target_resource_id  = azurerm_function_app.functionapp.id
+  type                = "azureendpoints"
+  weight              = 100
 }
 
 # All
