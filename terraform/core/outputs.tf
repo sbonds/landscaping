@@ -49,3 +49,15 @@ output "cosmosdbMongodbConnectionString" {
 output "cosmosdbPassword" {
   value = azurerm_cosmosdb_account.db.primary_master_key
 }
+
+output "APIHOSTNAME" {
+  value = azurerm_key_vault_secret.APIHOSTNAME.value
+}
+
+output "APIHOSTNAMEEXT" {
+  value = azurerm_key_vault_secret.APIHOSTNAMEEXT.value
+}
+
+output "APIHOSTNAMEROOT" {
+  value = azurerm_key_vault_secret.APIHOSTNAMEROOT.value
+}

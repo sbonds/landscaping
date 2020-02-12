@@ -115,6 +115,17 @@ resource "azurerm_function_app" "functionapp" {
     "cosmosdbPassword" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbPassword}"
   }
 
+  site_config {
+    cors {
+      allowed_origins = [
+        "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAME}",
+        "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAMEEXT}",
+        "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAMEROOT}",
+      ]
+      support_credentials = true
+    }
+  }
+
   tags = {
     Environment = var.prefix,
     Workload = var.workload
