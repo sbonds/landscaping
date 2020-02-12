@@ -107,16 +107,12 @@ resource "azurerm_function_app" "functionapp" {
   storage_connection_string = "${azurerm_storage_account.functionapp.primary_connection_string}"
 
   app_settings = {
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${data.terraform_remote_state.remote_state_core.outputs.appinsights_instrumentation_key}"
-  }
-
-  site_config {
-    cors {
-      allowed_origins = [
-        "*"
-      ]
-      support_credentials = true
-    }
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${data.terraform_remote_state.remote_state_core.outputs.appinsights_instrumentation_key}",
+    "cosmosdbCollectionName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbCollectionName}",
+    "cosmosdbDatabaseName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbDatabaseName}",
+    "cosmosdbHostName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbHostName}",
+    "cosmosdbMongodbConnectionString" ="${data.terraform_remote_state.remote_state_core.outputs.cosmosdbMongodbConnectionString}",
+    "cosmosdbPassword" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbPassword}"
   }
 
   tags = {
