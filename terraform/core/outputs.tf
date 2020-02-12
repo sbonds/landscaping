@@ -29,3 +29,23 @@ output "traffic_manager_profile_id_fe" {
 output "appinsights_instrumentation_key" {
   value = azurerm_application_insights.appinsights.instrumentation_key
 }
+
+output "cosmosdbCollectionName" {
+  value = azurerm_cosmosdb_mongo_collection.db.name
+}
+
+output "cosmosdbDatabaseName" {
+  value = azurerm_cosmosdb_account.db.name
+}
+
+output "cosmosdbHostName" {
+  value = azurerm_cosmosdb_account.db.endpoint
+}
+
+output "cosmosdbMongodbConnectionString" {
+  value = azurerm_cosmosdb_account.db.connection_strings[0]
+}
+
+output "cosmosdbPassword" {
+  value = azurerm_cosmosdb_account.db.primary_master_key
+}

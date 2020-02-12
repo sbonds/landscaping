@@ -107,15 +107,18 @@ resource "azurerm_function_app" "functionapp" {
   storage_connection_string = "${azurerm_storage_account.functionapp.primary_connection_string}"
 
   app_settings = {
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${data.terraform_remote_state.remote_state_core.outputs.appinsights_instrumentation_key}"
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${data.terraform_remote_state.remote_state_core.outputs.appinsights_instrumentation_key}",
+    "cosmosdbCollectionName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbCollectionName}",
+    "cosmosdbDatabaseName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbDatabaseName}",
+    "cosmosdbHostName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbHostName}",
+    "cosmosdbMongodbConnectionString" ="${data.terraform_remote_state.remote_state_core.outputs.cosmosdbMongodbConnectionString}",
+    "cosmosdbPassword" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbPassword}"
   }
 
   site_config {
     cors {
       allowed_origins = [
-        "http://www.contoso.com",
-        "www.contoso.com",
-        "contoso.com"
+        "*"
       ]
       support_credentials = true
     }
