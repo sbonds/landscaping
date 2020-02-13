@@ -182,12 +182,12 @@ resource "azurerm_cosmosdb_account" "db" {
 
   geo_location {
     location          = var.regionC
-    failover_priority = 1
+    failover_priority = 2
   }
 
   geo_location {
     location          = var.regionD
-    failover_priority = 1
+    failover_priority = 3
   }
 
 }
