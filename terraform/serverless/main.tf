@@ -59,6 +59,24 @@ resource "azurerm_app_service" "appservice" {
 
 }
 
+resource "azurerm_app_service_custom_hostname_binding" "WWWHOSTNAME" {
+  hostname            = "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAME}",
+  app_service_name    = azurerm_app_service.appservice.name
+  resource_group_name = azurerm_resource_group.resource_group.name
+}
+
+resource "azurerm_app_service_custom_hostname_binding" "WWWHOSTNAMEEXT" {
+  hostname            = "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEEXT}",
+  app_service_name    = azurerm_app_service.appservice.name
+  resource_group_name = azurerm_resource_group.resource_group.name
+}
+
+resource "azurerm_app_service_custom_hostname_binding" "WWWHOSTNAMEROOT" {
+  hostname            = "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEROOT}",
+  app_service_name    = azurerm_app_service.appservice.name
+  resource_group_name = azurerm_resource_group.resource_group.name
+}
+
 resource "azurerm_traffic_manager_endpoint" "webappfe" {
   name                = "${var.workload}-${var.prefix}-webapp-fe"
   resource_group_name = "${data.terraform_remote_state.remote_state_core.outputs.resource_group_name}"
