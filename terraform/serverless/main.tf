@@ -105,6 +105,7 @@ resource "azurerm_function_app" "functionapp" {
   resource_group_name       = "${azurerm_resource_group.resource_group.name}"
   app_service_plan_id       = "${azurerm_app_service_plan.functionapp.id}"
   storage_connection_string = "${azurerm_storage_account.functionapp.primary_connection_string}"
+  version                   = "~2"
 
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = "${data.terraform_remote_state.remote_state_core.outputs.appinsights_instrumentation_key}",
@@ -112,8 +113,7 @@ resource "azurerm_function_app" "functionapp" {
     "cosmosdbDatabaseName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbDatabaseName}",
     "cosmosdbHostName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbHostName}",
     "cosmosdbMongodbConnectionString" ="${data.terraform_remote_state.remote_state_core.outputs.cosmosdbMongodbConnectionString}",
-    "cosmosdbPassword" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbPassword}",
-    "FUNCTIONS_EXTENSION_VERSION" = "~2"
+    "cosmosdbPassword" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbPassword}"
   }
 
   site_config {
