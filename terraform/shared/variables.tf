@@ -72,8 +72,3 @@ variable "subdomain" {
   type        = string
   description = "The subdomain to use when configuring DNS and Traffic Manager"
 }
-
-variable "prefixdomain" {
-  type        = string
-  description = "The environment specific prefix domain to use when configuring DNS and Traffic Manager"
-}
