@@ -62,3 +62,8 @@ variable "regionD" {
   type        = string
   description = "One of the geo-redundant Azure regions in which to provision resources"
 }
+
+variable "prefixdomain" {
+  type        = string
+  description = "The environment specific prefix domain to use when configuring DNS and Traffic Manager"
+}
