@@ -163,9 +163,12 @@ resource "azurerm_function_app" "functionapp" {
   site_config {
     cors {
       allowed_origins = [
-        "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAME}",
-        "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEEXT}",
-        "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEROOT}",
+        "http://${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAME}",
+        "http://${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEEXT}",
+        "http://${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEROOT}",
+        "https://${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAME}",
+        "https://${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEEXT}",
+        "https://${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEROOT}",
       ]
       support_credentials = true
     }
