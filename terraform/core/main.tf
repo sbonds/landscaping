@@ -175,6 +175,21 @@ resource "azurerm_cosmosdb_account" "db" {
     failover_priority = 0
   }
 
+  geo_location {
+    location          = var.regionB
+    failover_priority = 1
+  }
+
+  geo_location {
+    location          = var.regionC
+    failover_priority = 1
+  }
+
+  geo_location {
+    location          = var.regionD
+    failover_priority = 1
+  }
+
 }
 
 resource "azurerm_cosmosdb_mongo_database" "db" {
@@ -198,25 +213,6 @@ resource "azurerm_cosmosdb_mongo_collection" "db" {
     unique = true
   }
 
-  geo_location {
-    location          = var.regionB
-    failover_priority = 1
-  }
-
-  geo_location {
-    location          = var.regionC
-    failover_priority = 1
-  }
-
-  geo_location {
-    location          = var.regionD
-    failover_priority = 1
-  }
-
-  geo_location {
-    location          = azurerm_resource_group.rg.location
-    failover_priority = 0
-  }
 }
 
 resource "azurerm_key_vault" "keyvault" {
