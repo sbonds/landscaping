@@ -127,22 +127,6 @@ resource "azurerm_dns_cname_record" "dns_cname_record_be" {
   record              = azurerm_traffic_manager_profile.traffic_manager_profile_be.fqdn
 }
 
-resource "azurerm_dns_cname_record" "dns_cname_wildcard_record_be" {
-  name                = "*.be.${var.subdomain}"
-  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
-  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
-  ttl                 = 0
-  record              = azurerm_traffic_manager_profile.traffic_manager_profile_be.fqdn
-}
-
-resource "azurerm_dns_cname_record" "dns_cname_wildcard_record_be" {
-  name                = "*.be.${var.subdomain}"
-  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
-  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
-  ttl                 = 0
-  record              = azurerm_traffic_manager_profile.traffic_manager_profile_be.fqdn
-}
-
 resource "azurerm_application_insights" "appinsights" {
   name                = "${var.workload}${var.prefix}"
   location            = azurerm_resource_group.resource_group.location
