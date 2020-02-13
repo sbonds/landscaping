@@ -179,19 +179,19 @@ resource "azurerm_function_app" "functionapp" {
 
 resource "azurerm_app_service_custom_hostname_binding" "APIHOSTNAME" {
   hostname            = "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAME}"
-  app_service_name    = azurerm_app_service.functionapp.name
+  app_service_name    = azurerm_function_app.functionapp.name
   resource_group_name = azurerm_resource_group.resource_group.name
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "APIHOSTNAMEEXT" {
   hostname            = "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAMEEXT}"
-  app_service_name    = azurerm_app_service.functionapp.name
+  app_service_name    = azurerm_function_app.functionapp.name
   resource_group_name = azurerm_resource_group.resource_group.name
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "APIHOSTNAMEROOT" {
   hostname            = "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAMEROOT}"
-  app_service_name    = azurerm_app_service.functionapp.name
+  app_service_name    = azurerm_function_app.functionapp.name
   resource_group_name = azurerm_resource_group.resource_group.name
 }
 
