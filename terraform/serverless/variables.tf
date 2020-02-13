@@ -58,7 +58,7 @@ variable "regionC" {
   description = "One of the geo-redundant Azure regions in which to provision resources"
 }
 
-variable "domainD" {
+variable "regionD" {
   type        = string
   description = "One of the geo-redundant Azure regions in which to provision resources"
 }

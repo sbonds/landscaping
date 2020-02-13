@@ -48,11 +48,6 @@ variable "region" {
   description = "The Azure region in which to provision resources"
 }
 
-variable "region" {
-  type        = string
-  description = "The Azure region in which to provision resources"
-}
-
 variable "regionB" {
   type        = string
   description = "One of the geo-redundant Azure regions in which to provision resources"
@@ -63,9 +58,14 @@ variable "regionC" {
   description = "One of the geo-redundant Azure regions in which to provision resources"
 }
 
-variable "domainD" {
+variable "regionC" {
   type        = string
   description = "One of the geo-redundant Azure regions in which to provision resources"
+}
+
+variable "domain" {
+  type        = string
+  description = "The root domain to use when configuring DNS and Traffic Manager"
 }
 
 variable "subdomain" {
