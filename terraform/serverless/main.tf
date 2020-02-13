@@ -112,7 +112,8 @@ resource "azurerm_function_app" "functionapp" {
     "cosmosdbDatabaseName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbDatabaseName}",
     "cosmosdbHostName" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbHostName}",
     "cosmosdbMongodbConnectionString" ="${data.terraform_remote_state.remote_state_core.outputs.cosmosdbMongodbConnectionString}",
-    "cosmosdbPassword" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbPassword}"
+    "cosmosdbPassword" = "${data.terraform_remote_state.remote_state_core.outputs.cosmosdbPassword}",
+    "FUNCTIONS_EXTENSION_VERSION" = "~2"
   }
 
   site_config {
