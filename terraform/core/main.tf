@@ -61,7 +61,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_fe" {
   name                = "${var.prefix}-fe-traffic-manager-profile"
   resource_group_name = azurerm_resource_group.resource_group.name
 
-  traffic_routing_method = "Weighted"
+  traffic_routing_method = "Performance"
 
   dns_config {
     relative_name = "www-${replace(var.subdomain, ".", "-")}-${replace(var.domain, ".", "-")}"
@@ -104,7 +104,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_be" {
   name                = "${var.prefix}-be-traffic-manager-profile"
   resource_group_name = azurerm_resource_group.resource_group.name
 
-  traffic_routing_method = "Weighted"
+  traffic_routing_method = "Performance"
 
   dns_config {
     relative_name = "api-${replace(var.subdomain, ".", "-")}-${replace(var.domain, ".", "-")}"
