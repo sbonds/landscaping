@@ -1,5 +1,8 @@
 prefix = "prd"
 workload = "vmchooser"
 region = "westeurope"
+regionB = "australiacentral2"
+regionC = "westus2"
+regionD = "southeastasia"
 domain = "vmchooser.com"
 subdomain = "prd"
