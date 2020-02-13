@@ -189,12 +189,6 @@ resource "azurerm_app_service_custom_hostname_binding" "APIHOSTNAMEEXT" {
   resource_group_name = azurerm_resource_group.resource_group.name
 }
 
-resource "azurerm_app_service_custom_hostname_binding" "APIHOSTNAMEROOT" {
-  hostname            = "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAMEROOT}"
-  app_service_name    = azurerm_function_app.functionapp.name
-  resource_group_name = azurerm_resource_group.resource_group.name
-}
-
 resource "azurerm_traffic_manager_endpoint" "funcbe" {
   name                = "${var.workload}-${var.prefix}-func-be"
   resource_group_name = "${data.terraform_remote_state.remote_state_core.outputs.resource_group_name}"
