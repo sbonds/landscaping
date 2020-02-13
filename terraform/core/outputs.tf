@@ -61,3 +61,15 @@ output "APIHOSTNAMEEXT" {
 output "APIHOSTNAMEROOT" {
   value = azurerm_key_vault_secret.APIHOSTNAMEROOT.value
 }
+
+output "WWWHOSTNAME" {
+  value = azurerm_key_vault_secret.WWWHOSTNAME.value
+}
+
+output "WWWHOSTNAMEEXT" {
+  value = azurerm_key_vault_secret.WWWHOSTNAMEEXT.value
+}
+
+output "WWWHOSTNAMEROOT" {
+  value = azurerm_key_vault_secret.WWWHOSTNAMEROOT.value
+}

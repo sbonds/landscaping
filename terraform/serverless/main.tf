@@ -119,9 +119,9 @@ resource "azurerm_function_app" "functionapp" {
   site_config {
     cors {
       allowed_origins = [
-        "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAME}",
-        "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAMEEXT}",
-        "${data.terraform_remote_state.remote_state_core.outputs.APIHOSTNAMEROOT}",
+        "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAME}",
+        "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEEXT}",
+        "${data.terraform_remote_state.remote_state_core.outputs.WWWHOSTNAMEROOT}",
       ]
       support_credentials = true
     }
