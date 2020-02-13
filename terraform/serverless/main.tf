@@ -25,6 +25,16 @@ data "terraform_remote_state" "remote_state_core" {
   }
 }
 
+data "terraform_remote_state" "remote_state_shared" {
+  backend = "azurerm"
+  config = {
+    key                   = "shared.terraform.tfstate"
+    container_name        = "shared"
+    storage_account_name  = var.storage_account_name
+    access_key            = var.storage_account_key
+  }
+}
+
 # Resources
 resource "azurerm_resource_group" "resource_group" {
   name                = "${var.workload}-${var.prefix}-serverless"
@@ -57,6 +67,22 @@ resource "azurerm_app_service" "appservice" {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = "${data.terraform_remote_state.remote_state_core.outputs.appinsights_instrumentation_key}"
   }
 
+}
+
+resource "azurerm_dns_cname_record" "dns_cname_awverify_domain_fe" {
+  name                = "awverify.${var.prefixdomain}"
+  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
+  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
+  ttl                 = 0
+  record              = azurerm_app_service.appservice.default_site_hostname
+}
+
+resource "azurerm_dns_cname_record" "dns_cname_awverify_azure_fe" {
+  name                = "awverify.fe.${var.prefix}"
+  zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
+  resource_group_name = data.terraform_remote_state.remote_state_shared.outputs.resource_group_name
+  ttl                 = 0
+  record              = azurerm_app_service.appservice.default_site_hostname
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "WWWHOSTNAME" {
