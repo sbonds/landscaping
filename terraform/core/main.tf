@@ -84,7 +84,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_fe" {
   }
 }
 
-resource "azurerm_monitor_metric_alertrule" "alertrulefetm" {
+resource "azurerm_monitor_metric_alertrule" "alertrulefetmcount" {
   name                = "${var.prefix}-fe-tm-count"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
@@ -135,7 +135,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_be" {
   }
 }
 
-resource "azurerm_monitor_metric_alertrule" "alertrulebetm" {
+resource "azurerm_monitor_metric_alertrule" "alertrulebetmcount" {
   name                = "${var.prefix}-be-tm-count"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
