@@ -84,6 +84,22 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_fe" {
   }
 }
 
+resource "azurerm_metric_alertrule" "alertrule" {
+  name                = "${var.prefix}-fe-tm-count"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+
+  description = "Check if there is at least one endpoint live"
+  enabled = true
+
+  resource_id = azurerm_traffic_manager_profile.traffic_manager_profile_fe.id
+  metric_name = "QpsByEndpoint"
+  operator    = "LessThan"
+  threshold   = 1
+  aggregation = "Total"
+  period      = "PT10M"
+}
+
 resource "azurerm_dns_cname_record" "dns_cname_record_fe" {
   name                = "fe.${var.subdomain}"
   zone_name           = data.terraform_remote_state.remote_state_shared.outputs.dns_zone_name
@@ -117,6 +133,22 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile_be" {
     Workload = var.workload,
     Component = "api"
   }
+}
+
+resource "azurerm_metric_alertrule" "alertrule" {
+  name                = "${var.prefix}-be-tm-count"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+
+  description = "Check if there is at least one endpoint live"
+  enabled = true
+
+  resource_id = azurerm_traffic_manager_profile.traffic_manager_profile_be.id
+  metric_name = "QpsByEndpoint"
+  operator    = "LessThan"
+  threshold   = 1
+  aggregation = "Total"
+  period      = "PT10M"
 }
 
 resource "azurerm_dns_cname_record" "dns_cname_record_be" {
