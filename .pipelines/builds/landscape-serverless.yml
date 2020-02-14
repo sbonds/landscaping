@@ -16,19 +16,6 @@ trigger:
     - /scripts/
     - /.pipelines/templates/tf*
 stages:
-- stage: Package
-  displayName: Package Files
-  jobs:
-  - job: Package
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)'
-        ArtifactName: 'vmchooserlandscapeserverless'
 - stage: Build
   displayName: Build stage
   jobs:
@@ -66,7 +53,7 @@ stages:
         module: serverless
         stage: dev
 - stage: DeployCore
-  displayName: Deploy Core - Shared Components
+  displayName: Deploy Shared Components
   dependsOn: Build
   jobs: 
     - deployment: DeployPrd
