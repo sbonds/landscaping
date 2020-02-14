@@ -16,6 +16,19 @@ trigger:
     - /scripts/
     - /.pipelines/templates/tf*
 stages:
+- stage: Package
+  displayName: Package Files
+  jobs:
+  - job: Package
+    variables:
+    - group: vmchooser
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)'
+        ArtifactName: 'vmchooserlandscapeserverless'
 - stage: Build
   displayName: Build stage
   jobs:
@@ -25,6 +38,8 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - download: current
+      artifact: vmchooserfrontendpreview
     - template: ../templates/tf-environment-build.yml
       parameters:
         module: shared
@@ -53,69 +68,89 @@ stages:
 - stage: DeployCore
   displayName: Deploy Core - Shared Components
   dependsOn: Build
-  jobs:
-  - job: Deploy_Shared_Core
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-deploy.yml
-      parameters:
-        varfile: ../environments/shared.tfvars
-        stage: shared
-        module: shared
+  jobs: 
+    - deployment: DeployPrd
+      variables:
+      - group: vmchooser
+      environment: 'vmchoosershared'
+      strategy: 
+        runOnce:
+          deploy:          
+            pool: 
+              vmImage: 'ubuntu-latest'
+            steps:
+            - template: ../templates/tf-environment-deploy.yml
+              parameters:
+                varfile: ../environments/shared.tfvars
+                stage: shared
+                module: shared
 - stage: DeployDev
   displayName: Deploy Development Environment
   dependsOn: DeployCore
-  jobs:
-  - job: Deploy_Dev_Core
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-deploy.yml
-      parameters:
-        varfile: ../environments/dev.tfvars
-        stage: dev
-        module: core
-  - job: Deploy_Dev_Serverless
-    dependsOn: Deploy_Dev_Core
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-deploy.yml
-      parameters:
-        varfile: ../environments/dev.tfvars
-        stage: dev
-        module: serverless
+  jobs: 
+    - deployment: Deploy_Dev_Core
+      variables:
+      - group: vmchooser
+      environment: 'vmchooserdev'
+      strategy: 
+        runOnce:
+          deploy:          
+            pool: 
+              vmImage: 'ubuntu-latest'
+            steps:
+            - template: ../templates/tf-environment-deploy.yml
+              parameters:
+                varfile: ../environments/dev.tfvars
+                stage: dev
+                module: core
+    - deployment: Deploy_Dev_Serverless
+      dependsOn: Deploy_Dev_Core
+      variables:
+      - group: vmchooser
+      environment: 'vmchooserdev'
+      strategy: 
+        runOnce:
+          deploy:          
+            pool: 
+              vmImage: 'ubuntu-latest'
+            steps:
+            - template: ../templates/tf-environment-deploy.yml
+              parameters:
+                varfile: ../environments/dev.tfvars
+                stage: dev
+                module: serverless
 - stage: DeployPrd
   displayName: Deploy Production Environment
   dependsOn: DeployDev
-  jobs:
-  - job: Deploy_Prd_Core
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-deploy.yml
-      parameters:
-        varfile: ../environments/prd.tfvars
-        stage: prd
-        module: core
-  - job: Deploy_Prd_Serverless
-    dependsOn: Deploy_Prd_Core
-    variables:
-    - group: vmchooser
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - template: ../templates/tf-environment-deploy.yml
-      parameters:
-        varfile: ../environments/prd.tfvars
-        stage: prd
-        module: serverless
+  jobs: 
+    - deployment: Deploy_Prd_Core
+      variables:
+      - group: vmchooser
+      environment: 'vmchooserprd'
+      strategy: 
+        runOnce:
+          deploy:          
+            pool: 
+              vmImage: 'ubuntu-latest'
+            steps:
+            - template: ../templates/tf-environment-deploy.yml
+              parameters:
+                varfile: ../environments/prd.tfvars
+                stage: prd
+                module: core
+    - deployment: Deploy_Prd_Serverless
+      dependsOn: Deploy_Prd_Core
+      variables:
+      - group: vmchooser
+      environment: 'vmchooserprd'
+      strategy: 
+        runOnce:
+          deploy:          
+            pool: 
+              vmImage: 'ubuntu-latest'
+            steps:
+            - template: ../templates/tf-environment-deploy.yml
+              parameters:
+                varfile: ../environments/prd.tfvars
+                stage: prd
+                module: serverless
